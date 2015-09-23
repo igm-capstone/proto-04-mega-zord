@@ -274,8 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 1
-  AxisName: 
-  AxisState: 0
 --- !u!4 &1868822110
 Transform:
   m_ObjectHideFlags: 0

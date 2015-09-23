@@ -4,7 +4,6 @@ using System.Collections;
 
 // Reads every player input from the controller.
 public class InputManager : MonoBehaviour {
-
     // Class Variables
     [SerializeField]
     [Range(1,2)]
@@ -13,22 +12,16 @@ public class InputManager : MonoBehaviour {
     // Component Variables
     RobotSyncBehavior RobotSyncScrpt;
 
-    //Test Variables
-    public string AxisName;
-    public bool AxisState;
-
     void Start ()
     {
         RobotSyncScrpt = GetComponent<RobotSyncBehavior>();
     }
-    
-   	// Update is called once per frame
-	void Update ()
+
+    void Update ()
     {
         ReadPlayerInput();  // Reads the player input
         
 	}
-
     // Read a single Player ID
     void ReadPlayerInput()
     {
@@ -37,98 +30,94 @@ public class InputManager : MonoBehaviour {
         bool keyState = false;      // Logic state of that key.
 
         // Forward_P axis
-        keyRead = "Forward_P" + playerID.ToString();
-        if (Input.GetAxis(keyRead) >0)
+        keyRead = "Forward";
+        if (Input.GetAxis(keyRead + "_P" + playerID.ToString()) >0)
         {
             keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
-        else if (Input.GetAxis(keyRead) < 0)
+        else if (Input.GetAxis(keyRead + "_P" + playerID.ToString()) < 0)
         {
             keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
         // Sideways_P axis
-        keyRead = "Sideways_P" + playerID.ToString();
-        if (Input.GetAxis(keyRead) > 0)
+        keyRead = "Sideways";
+        if (Input.GetAxis(keyRead + "_P" + playerID.ToString()) > 0)
         {
             keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
-        else if (Input.GetAxis(keyRead) < 0)
+        else if (Input.GetAxis(keyRead + "_P" + playerID.ToString()) < 0)
         {
             keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
         // LeftPunch_P axis
-        keyRead = "LeftPunch_P" + playerID.ToString();
-        if (Input.GetButtonUp(keyRead))
+        keyRead = "LeftPunch";
+        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
             keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead))
+        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
             keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
         // RightPunch_P axis
-        keyRead = "RightPunch_P" + playerID.ToString();
-        if (Input.GetButtonUp(keyRead))
+        keyRead = "RightPunch";
+        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
             keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead))
+        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
             keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
         // LeftKick_P axis
-        keyRead = "LeftKick_P" + playerID.ToString();
-        if (Input.GetButtonUp(keyRead))
+        keyRead = "LeftKick";
+        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
             keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead))
+        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
             keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
         // RightKick_P axis
-        keyRead = "RightKick_P" + playerID.ToString();
-        if (Input.GetButtonUp(keyRead))
+        keyRead = "RightKick";
+        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
             keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead))
+        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
             keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
         // Block_P axis
-        keyRead = "Block_P" + playerID.ToString();
-        if (Input.GetButtonUp(keyRead))
+        keyRead = "Block";
+        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
             keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead))
+        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
             keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
-
-        AxisName = keyRead;
-        AxisState = keyState;
-
     }
 }
