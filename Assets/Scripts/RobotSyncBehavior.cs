@@ -15,25 +15,32 @@ public class Action
         Key = key;
         Time = timeStamp;
         PlayerSyncInfos = new PlayerSyncInfo[numberOfPlayers];
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
+            PlayerSyncInfos[i] = new PlayerSyncInfo(i);
+        }
     }
 }
 
 public class PlayerSyncInfo
 {
     public readonly int PlayerID;
-    public float Delay = float.NaN;
-    public float Release = float.NaN;
-    public float Break = 0.0f;
+    public float Delay;
+    public float Release;
+    public float Break;
     public PlayerSyncInfo(int playerID)
     {
         PlayerID = playerID;
+        Delay = float.NaN;
+        Release = float.NaN;
+        Break = 0.0f;
     }
 }
 
 public class RobotSyncBehavior : MonoBehaviour
 {
     public event System.Action<Action> ActionStarted;
-    public event System.Action<string> ActionChanged;
+    public event System.Action<Action> ActionChanged;
     public event System.Action<string> ActionTerminated;
 
     public int NumberOfPlayers = 4;
@@ -70,7 +77,7 @@ public class RobotSyncBehavior : MonoBehaviour
             }
             else
             {
-                playerSyncInfo.Break += Time.time - playerSyncInfo.Release;
+                playerSyncInfo.Break += (Time.time - action.Time) - playerSyncInfo.Release;
                 playerSyncInfo.Release = float.NaN;
             }
         }
@@ -88,7 +95,7 @@ public class RobotSyncBehavior : MonoBehaviour
         }
         else if (ActionChanged != null)
         {
-            ActionChanged(action.Key);
+            ActionChanged(action);
         }
     }
 
