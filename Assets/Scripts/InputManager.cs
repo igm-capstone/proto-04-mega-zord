@@ -3,58 +3,42 @@ using System.Collections;
 
 
 // Reads every player input from the controller.
-public class InputManager : MonoBehaviour {
+public class InputManager : MonoBehaviour
+{
     // Class Variables
+    // Player information
     [SerializeField]
-    [Range(1,2)]
+    [Range(1, 2)]
     public int playerID = 1;
+
+    //dPad Variables
+    float lastX;
+    float lastY;
 
     // Component Variables
     RobotSyncBehavior RobotSyncScrpt;
-
-    void Start ()
+    void Start()
     {
+        // Initialize  variables dPAd Buttons
+        lastX = 0;
+        lastY = 0;
+        // Get necessary components.
         RobotSyncScrpt = GetComponent<RobotSyncBehavior>();
     }
 
-    void Update ()
+    void Update()
     {
-        ReadPlayerInput();  // Reads the player input
-        
-	}
+        ReadDpad();
+        ReadButtons();
+    }
     // Read a single Player ID
-    void ReadPlayerInput()
+    void ReadButtons()
     {
         // Key variables.
         string keyRead;     // String cointaining the Read Key.
         bool keyState = false;      // Logic state of that key.
 
-        // Forward_P axis
-        keyRead = "Forward";
-        if (Input.GetAxis(keyRead + "_P" + playerID.ToString()) >0)
-        {
-            keyState = true;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
-        }
-        else if (Input.GetAxis(keyRead + "_P" + playerID.ToString()) < 0)
-        {
-            keyState = false;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
-        }
-
-        // Sideways_P axis
-        keyRead = "Sideways";
-        if (Input.GetAxis(keyRead + "_P" + playerID.ToString()) > 0)
-        {
-            keyState = true;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
-        }
-        else if (Input.GetAxis(keyRead + "_P" + playerID.ToString()) < 0)
-        {
-            keyState = false;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
-        }
-
+        // Buttons
         // LeftPunch_P axis
         keyRead = "LeftPunch";
         if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
@@ -119,5 +103,55 @@ public class InputManager : MonoBehaviour {
             keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
+    }
+
+    //REads the DPad as Button inputs instead of Axis
+    void ReadDpad()
+    {
+        float LastDpadX = lastX;
+        float LastDpadY = lastY;
+
+        float CurDpadX = Input.GetAxisRaw("DPadX_P" + playerID.ToString());
+        float CurDpadY = Input.GetAxisRaw("DPadY_P" + playerID.ToString());
+
+        #region X-Axis
+        // RightStrafe
+        // GetButtonUp
+        if (CurDpadX == 1 && LastDpadX != 1)
+            RobotSyncScrpt.ReceiveInput("Right", playerID, true);
+        // GetButtonDown
+        else if (CurDpadX != 1 && LastDpadX == 1)
+            RobotSyncScrpt.ReceiveInput("Right", playerID, false);
+
+        // LeftStrafe
+        // GetButtonUp
+        if (CurDpadX == -1 && LastDpadX != -1)
+            RobotSyncScrpt.ReceiveInput("Left", playerID, true);
+        // GetButtonDown
+        else if (CurDpadX != -1 && LastDpadX == -1)
+            RobotSyncScrpt.ReceiveInput("Left", playerID, false);
+        #endregion
+
+        #region Y-Axis
+        // Forward
+        // GetButtonUp
+        if (CurDpadY == 1 && LastDpadY != 1)
+            RobotSyncScrpt.ReceiveInput("Forward", playerID, true);
+        // GetButtonDown
+        else if (CurDpadY != 1 && LastDpadY == 1)
+            RobotSyncScrpt.ReceiveInput("Forward", playerID, false);
+
+        // Backwards
+        // GetButtonUp
+        if (CurDpadY == -1 && LastDpadY != -1)
+            RobotSyncScrpt.ReceiveInput("Backwards", playerID, true);
+        // GetButtonDown
+        else if (CurDpadY != -1 && LastDpadY == -1)
+            RobotSyncScrpt.ReceiveInput("Backwards", playerID, false);
+        #endregion
+
+        // Update last X and Y
+        lastX = CurDpadX;
+        lastY = CurDpadY;
     }
 }
