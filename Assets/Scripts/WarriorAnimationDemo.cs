@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WarriorAnimationDemo : MonoBehaviour {
-
+    public RobotSyncBehavior rbs;
 	public Animator animator;
 
 	float rotationSpeed = 30;
@@ -10,19 +11,137 @@ public class WarriorAnimationDemo : MonoBehaviour {
 	bool isMoving;
 	bool isStunned;
 
+    Action forward;
+    Action backward;
+    Action left;
+    Action right;
 
-	//Warrior types
-	public enum Warrior{Karate, Ninja, Brute, Sorceress};
+    public float vectorMax = 5.0f;
+    //Warrior types
+    public enum Warrior{Karate, Ninja, Brute, Sorceress};
 
 	public Warrior warrior;
 	
-	void Update()
-	{
-		//Get input from controls
-		float x = Input.GetAxisRaw("Forward_P1");
-        float z = -(Input.GetAxisRaw("Sideways_P1"));
-		inputVec = new Vector3(-x, 0, -z);
+    void Start()
+    {
+        rbs = GetComponent<RobotSyncBehavior>();
+        rbs.ActionStarted += Rbs_ActionStarted;
+        rbs.ActionChanged += Rbs_ActionChanged;
+        rbs.ActionTerminated += Rbs_ActionTerminated;
+    }
 
+    private void Rbs_ActionTerminated(string obj)
+    {
+        if (obj == "RightPunch")         // Forward
+        {
+            forward = null;
+        }
+        else if (obj == "LeftKick")     // Backward
+        {
+            backward = null;
+        }
+        else if (obj == "LeftPunch")    // Left
+        {
+            left = null;
+        }
+        else if (obj == "RightKick")    // Right
+        {
+            right = null;
+        }
+
+        UpdateActions();
+    }
+
+    private void Rbs_ActionStarted(Action obj)
+    {
+        if (obj.Key == "RightPunch")         // Forward
+        {
+            forward = obj;
+        }
+        else if (obj.Key == "LeftKick")     // Backward
+        {
+            backward = obj;
+        }
+        else if (obj.Key == "LeftPunch")    // Left
+        {
+            left = obj;
+        }
+        else if (obj.Key == "RightKick")    // Right
+        {
+            right = obj;
+        }
+
+        Debug.Log("Action Started");
+        UpdateActions();
+    }
+
+    private void Rbs_ActionChanged(Action obj)
+    {
+        Debug.Log("Action Changed");
+        UpdateActions();
+    }
+
+
+    void UpdateActions()
+    {
+        inputVec = new Vector3();
+
+        Vector3 f = new Vector3();
+        if (forward != null)
+        {
+            int count = 0;
+            foreach (PlayerSyncInfo psi in forward.PlayerSyncInfos)
+            {
+                if (psi.IsPressing()) { count++; }
+            }
+            f += Vector3.forward * count;
+        }
+
+        Vector3 b = new Vector3();
+        if (backward != null)
+        {
+            int count = 0;
+            foreach (PlayerSyncInfo psi in backward.PlayerSyncInfos)
+            {
+                if (psi.IsPressing()) { count++; }
+            }
+            b -= Vector3.forward * count;
+        }
+
+        Vector3 r = new Vector3();
+        if (right != null)
+        {
+            int count = 0;
+            foreach (PlayerSyncInfo psi in right.PlayerSyncInfos)
+            {
+                if (psi.IsPressing()) { count++; }
+            }
+            r += Vector3.right * count;
+        }
+
+        Vector3 l = new Vector3();
+        if (left != null)
+        {
+            int count = 0;
+            foreach (PlayerSyncInfo psi in left.PlayerSyncInfos)
+            {
+                if (psi.IsPressing()) { count++; }
+            }
+            l -= Vector3.right * count;
+        }
+
+        inputVec += (f + b + l + r);
+    }
+
+   
+    void Update()
+	{
+        //Get input from controls
+        float x = inputVec.x;  //Input.GetAxisRaw("Forward_P1");
+        float z = inputVec.z;  //-(Input.GetAxisRaw("Sideways_P1"));
+                               //	inputVec = new Vector3(-x, 0, -z);
+
+        UpdateMovement();
 		//Apply inputs to animator
 		animator.SetFloat("Input X", z);
 		animator.SetFloat("Input Z", -(x));
@@ -53,7 +172,7 @@ public class WarriorAnimationDemo : MonoBehaviour {
 				StartCoroutine (COStunPause(.6f));
 		}
 
-		UpdateMovement();  //update character position and facing
+    //	UpdateMovement();  //update character position and facing
 	}
 
 	public IEnumerator COStunPause(float pauseTime)
