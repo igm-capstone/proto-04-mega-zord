@@ -37,6 +37,12 @@ public class PlayerSyncInfo
         Release = float.NaN;
         Break = 0.0f;
     }
+
+    public bool IsPressing()
+    {
+        return (float.IsNaN(Release) && !float.IsNaN(Delay));
+    }
+
 }
 
 public class RobotSyncBehavior : MonoBehaviour
@@ -78,16 +84,19 @@ public class RobotSyncBehavior : MonoBehaviour
         {
             if (float.IsNaN(playerSyncInfo.Delay))
             {
+                // Player has begun pressing a button.
                 playerSyncInfo.Delay = Time.time - action.Time;
             }
             else
             {
+                // Player has repeated a button press during an action.
                 playerSyncInfo.Break += (Time.time - action.Time) - playerSyncInfo.Release;
                 playerSyncInfo.Release = float.NaN;
             }
         }
         else
         {
+            // Player has release a button during an action.
             playerSyncInfo.Release = Time.time - action.Time;
         }
 
