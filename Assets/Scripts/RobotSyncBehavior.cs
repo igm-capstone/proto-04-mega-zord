@@ -25,9 +25,11 @@ public class Action
 public class PlayerSyncInfo
 {
     public readonly int PlayerID;
-    public float Delay;
-    public float Release;
-    public float Break;
+    public float Delay;         // First time pressing a button during an action
+    public float Release;       // Any button releases during an action
+    public float Break;         // Cumulative time button was not presses during an action
+    public float Total;         // Total time button was pressed during the action
+
     public PlayerSyncInfo(int playerID)
     {
         PlayerID = playerID;
@@ -89,8 +91,17 @@ public class RobotSyncBehavior : MonoBehaviour
             playerSyncInfo.Release = Time.time - action.Time;
         }
 
-        // Update Action Sync Score
+        // Update Player Total Score
+        playerSyncInfo.Total = (Time.time - action.Time) - playerSyncInfo.Break;
 
+        // Update Action Sync
+        float score = 0.0f;
+        foreach (PlayerSyncInfo psi in action.PlayerSyncInfos)
+        {
+            score += psi.Total;
+        }
+
+        score /= NumberOfPlayers;
 
         if (isNew && ActionStarted != null)
         {
