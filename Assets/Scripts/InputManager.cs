@@ -118,36 +118,36 @@ public class InputManager : MonoBehaviour
         // RightStrafe
         // GetButtonUp
         if (CurDpadX == 1 && LastDpadX != 1)
-            RobotSyncScrpt.ReceiveInput("Right", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Right", playerID, false);
         // GetButtonDown
         else if (CurDpadX != 1 && LastDpadX == 1)
-            RobotSyncScrpt.ReceiveInput("Right", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Right", playerID, true);
 
         // LeftStrafe
         // GetButtonUp
         if (CurDpadX == -1 && LastDpadX != -1)
-            RobotSyncScrpt.ReceiveInput("Left", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Left", playerID, false);
         // GetButtonDown
         else if (CurDpadX != -1 && LastDpadX == -1)
-            RobotSyncScrpt.ReceiveInput("Left", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Left", playerID, true);
         #endregion
 
         #region Y-Axis
         // Forward
         // GetButtonUp
         if (CurDpadY == 1 && LastDpadY != 1)
-            RobotSyncScrpt.ReceiveInput("Forward", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Forward", playerID, false);
         // GetButtonDown
         else if (CurDpadY != 1 && LastDpadY == 1)
-            RobotSyncScrpt.ReceiveInput("Forward", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Forward", playerID, true);
 
         // Backwards
         // GetButtonUp
         if (CurDpadY == -1 && LastDpadY != -1)
-            RobotSyncScrpt.ReceiveInput("Backwards", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Backwards", playerID, false);
         // GetButtonDown
         else if (CurDpadY != -1 && LastDpadY == -1)
-            RobotSyncScrpt.ReceiveInput("Backwards", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Backwards", playerID, true);
         #endregion
 
         // Update last X and Y
