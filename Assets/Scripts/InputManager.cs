@@ -59,12 +59,12 @@ public class InputManager : MonoBehaviour {
         keyRead = "LeftPunch";
         if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = true;
+            keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
         else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = false;
+            keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
@@ -72,12 +72,12 @@ public class InputManager : MonoBehaviour {
         keyRead = "RightPunch";
         if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = true;
+            keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
         else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = false;
+            keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
@@ -85,12 +85,12 @@ public class InputManager : MonoBehaviour {
         keyRead = "LeftKick";
         if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = true;
+            keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
         else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = false;
+            keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
@@ -98,12 +98,12 @@ public class InputManager : MonoBehaviour {
         keyRead = "RightKick";
         if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = true;
+            keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
         else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = false;
+            keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
 
@@ -111,12 +111,12 @@ public class InputManager : MonoBehaviour {
         keyRead = "Block";
         if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = true;
+            keyState = false;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
         else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
         {
-            keyState = false;
+            keyState = true;
             RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
         }
     }
