@@ -192,24 +192,13 @@ public class WarriorAnimationDemo : MonoBehaviour {
         }
 
         inputVec += (f + b + l + r);
-
-        Debug.Log(inputVec);
     }
 
    
     void Update()
 	{
-        //Get input from controls
-        float x = inputVec.x;  //Input.GetAxisRaw("Forward_P1");
-        float z = inputVec.z;  //-(Input.GetAxisRaw("Sideways_P1"));
-                               //	inputVec = new Vector3(-x, 0, -z);
-
-       // UpdateMovement();
-		//Apply inputs to animator
-		//animator.SetFloat("Input X", z);
-		//animator.SetFloat("Input Z", -(x));
-
-		if (x != 0 || z != 0 )  //if there is some input
+        
+		if (inputVec.magnitude!=0)  //if there is some input
 		{
 			//set that character is moving
 			animator.SetBool("Moving", true);
@@ -223,26 +212,7 @@ public class WarriorAnimationDemo : MonoBehaviour {
 			animator.SetBool("Running", false);
 			isMoving = false;
 		}
-
-        RotateTowardsMovementDir();
-        UpdateMovement();  //update character position and facing
-
-
-    }
-
-    //public IEnumerator COStunPause(float pauseTime)
-    //{
-    //	isStunned = true;
-    //	yield return new WaitForSeconds(pauseTime);
-    //	isStunned = false;
-    //}
-
-    void RotateTowardsMovementDir()  //face character along input direction
-    {
-        if (inputVec != Vector3.zero)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(inputVec), Time.deltaTime * rotationSpeed);
-        }
+        UpdateMovement();  //update character Velocity
     }
 
    void UpdateMovement()
@@ -250,12 +220,8 @@ public class WarriorAnimationDemo : MonoBehaviour {
    	Vector3 motion = inputVec;  //get movement input from controls
 
     	//reduce input for diagonal movement
-    	//motion *= (Mathf.Abs(inputVec.x) == 1 && Mathf.Abs(inputVec.z) == 1)?.7f:1;
-        GetComponent<Rigidbody>().velocity = motion *10;
+    	motion *= (Mathf.Abs(inputVec.x) == 1 && Mathf.Abs(inputVec.z) == 1)?.7f:1;
+        GetComponent<Rigidbody>().velocity = motion*10;
         Debug.Log(motion);
-
-    //	RotateTowardsMovementDir();  //if not strafing, face character along input direction
-
-   	//return inputVec.magnitude;  //return a movement value for the animator, not currently used
    }
 }

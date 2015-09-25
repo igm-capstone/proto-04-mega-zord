@@ -3,15 +3,29 @@ using System.Collections;
 
 public class ActorBehavior : MonoBehaviour 
 {
-    RobotSyncBehavior rb;
+    RobotSyncBehavior rbtSyncBhvr;
     Animator animator;
-    string key;
+    string readKey;
+
+    // Movement Variables
+    Vector3 movmentVec;
+
+    // Input Actions
+    Action forward;
+    Action backward;
+    Action left;
+    Action right;
+    Action rightPunch;
+    Action leftPunch;
+    Action rightKick;
+    Action leftKick;
+    Action block;
 
     void Start()
     {
-        rb = GetComponent<RobotSyncBehavior>();
+        rbtSyncBhvr = GetComponent<RobotSyncBehavior>();
         animator = GetComponent<Animator>();
-        rb.ActionStarted += rb_ActionMove;
+        rbtSyncBhvr.ActionStarted += rb_ActionMove;
         
     }
 
@@ -22,37 +36,37 @@ public class ActorBehavior : MonoBehaviour
     
     void rb_ActionMove(Action obj)
     {
-        key = obj.Key;
-        if (key == "LeftPunch")
+        readKey = obj.Key;
+        if (readKey == "LeftPunch")
         {
             animator.SetBool("MirrorPunch", true);
             animator.SetTrigger("PunchTrigger");
         }
-        if (key == "RightPunch")
+        if (readKey == "RightPunch")
         {
             animator.SetBool("MirrorPunch", false);
             animator.SetTrigger("PunchTrigger");
         }
 
-        if (key == "LeftKick")
+        if (readKey == "LeftKick")
         {
             animator.SetBool("MirrorKick", false);
             animator.SetTrigger("KickTrigger");
         }
-        if (key == "RightKick")
+        if (readKey == "RightKick")
         {
             animator.SetBool("MirrorKick", true);
             animator.SetTrigger("KickTrigger");
         }
 
-        if (key == "Block")
+        if (readKey == "Block")
             animator.SetTrigger("Attack1Trigger");
     }
 
     public void Hit()
     {        
         //Debug.Log("hit" + key);
-        rb.ActionTerminated += rb_ActionTerminated;
-        rb.TerminateAction(key);
+        rbtSyncBhvr.ActionTerminated += rb_ActionTerminated;
+        rbtSyncBhvr.TerminateAction(readKey);
     }
 }
