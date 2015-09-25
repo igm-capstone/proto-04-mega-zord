@@ -416,6 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d21ae312f5ca1f49922dc57045a5636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!95 &655310906 stripped
 Animator:
   m_PrefabParentObject: {fileID: 9590292, guid: bad0018eb9256e6409155981dd5af9a2,
@@ -2212,7 +2213,6 @@ GameObject:
   - 114: {fileID: 1610943642}
   - 114: {fileID: 1610943641}
   - 114: {fileID: 1610943640}
-  - 114: {fileID: 1610943639}
   - 114: {fileID: 1610943638}
   m_Layer: 0
   m_Name: WarriorContainer
@@ -2241,25 +2241,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1610943636}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d21ae312f5ca1f49922dc57045a5636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1610943639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1610943636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 786eec8916aa5f64ca6a4a71218ffcf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rbs: {fileID: 0}
   animator: {fileID: 655310906}
-  warrior: 0
 --- !u!114 &1610943640
 MonoBehaviour:
   m_ObjectHideFlags: 0

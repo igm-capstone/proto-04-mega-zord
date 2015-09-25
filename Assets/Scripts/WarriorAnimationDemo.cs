@@ -7,7 +7,7 @@ public class WarriorAnimationDemo : MonoBehaviour {
 	public Animator animator;
 
 	float rotationSpeed = 30;
-	Vector3 inputVec;
+	Vector3 moveVec;
 	bool isMoving;
 	bool isStunned;
 
@@ -145,7 +145,7 @@ public class WarriorAnimationDemo : MonoBehaviour {
 
     void UpdateActions()
     {
-        inputVec = new Vector3();
+        moveVec = new Vector3();
 
         Vector3 f = new Vector3();
         if (forward != null)
@@ -191,14 +191,14 @@ public class WarriorAnimationDemo : MonoBehaviour {
             l -= Vector3.right * count;
         }
 
-        inputVec += (f + b + l + r);
+        moveVec += (f + b + l + r);
     }
 
    
     void Update()
 	{
         
-		if (inputVec.magnitude!=0)  //if there is some input
+		if (moveVec.magnitude!=0)  //if there is some input
 		{
 			//set that character is moving
 			animator.SetBool("Moving", true);
@@ -217,10 +217,10 @@ public class WarriorAnimationDemo : MonoBehaviour {
 
    void UpdateMovement()
    {
-   	Vector3 motion = inputVec;  //get movement input from controls
+   	Vector3 motion = moveVec;  //get movement input from controls
 
     	//reduce input for diagonal movement
-    	motion *= (Mathf.Abs(inputVec.x) == 1 && Mathf.Abs(inputVec.z) == 1)?.7f:1;
+    	motion *= (Mathf.Abs(moveVec.x) == 1 && Mathf.Abs(moveVec.z) == 1)?.7f:1;
         GetComponent<Rigidbody>().velocity = motion*10;
         Debug.Log(motion);
    }
