@@ -15,8 +15,13 @@ public class WarriorAnimationDemo : MonoBehaviour {
     Action backward;
     Action left;
     Action right;
+    Action rightPunch;
+    Action leftPunch;
+    Action rightKick;
+    Action leftKick;
+    Action block;
 
-    public float vectorMax = 5.0f;
+
     //Warrior types
     public enum Warrior{Karate, Ninja, Brute, Sorceress};
 
@@ -28,47 +33,103 @@ public class WarriorAnimationDemo : MonoBehaviour {
         rbs.ActionStarted += Rbs_ActionStarted;
         rbs.ActionChanged += Rbs_ActionChanged;
         rbs.ActionTerminated += Rbs_ActionTerminated;
+
+        //animator = GetComponent<Animator>();
     }
 
     private void Rbs_ActionTerminated(string obj)
     {
-        if (obj == "RightPunch")         // Forward
+        
+        // Movement Axis
+        if (obj == "Forward")
         {
             forward = null;
         }
-        else if (obj == "LeftKick")     // Backward
+        else if (obj == "Backward")
         {
             backward = null;
         }
-        else if (obj == "LeftPunch")    // Left
+        else if (obj == "Left")
         {
             left = null;
         }
-        else if (obj == "RightKick")    // Right
-        {
+        else if (obj == "Right")        {
             right = null;
         }
-
+        
+        // Button inputs
+        if (obj == "RightPunch")
+        {
+            //forward = null;
+            rightPunch = null;
+        }
+        else if (obj == "LeftKick")
+        {
+            //backward = null;
+            leftKick = null;
+        }
+        else if (obj == "LeftPunch")
+        {
+            //left = null;
+            leftPunch = null;
+        }
+        else if (obj == "RightKick")
+        {
+            //right = null;
+            rightKick = null;
+        }
+        else if (obj == "Block")
+        {
+            block = null;
+        }
         UpdateActions();
     }
 
     private void Rbs_ActionStarted(Action obj)
     {
-        if (obj.Key == "RightPunch")         // Forward
+        
+        // Movement Axis
+        if (obj.Key == "Forward")          
         {
             forward = obj;
         }
-        else if (obj.Key == "LeftKick")     // Backward
+        else if (obj.Key == "Backward")      
         {
             backward = obj;
         }
-        else if (obj.Key == "LeftPunch")    // Left
+        else if (obj.Key == "Left")     
         {
             left = obj;
         }
-        else if (obj.Key == "RightKick")    // Right
+        else if (obj.Key == "Right")    
         {
             right = obj;
+        }
+        
+        // Attack Inputs
+        if (obj.Key == "RightPunch")        
+        {
+            rightPunch = obj;
+            //forward = obj;
+        }
+        else if (obj.Key == "LeftKick")     
+        {
+            leftKick = obj;
+            //backward = obj;
+        }
+        else if (obj.Key == "LeftPunch")    
+        {
+            leftPunch = obj;
+            //left = obj;
+        }
+        else if (obj.Key == "RightKick")    
+        {
+            rightKick = obj;
+            //right = obj;
+        }
+        else if (obj.Key == "Block")
+        {
+            block = obj;
         }
 
         Debug.Log("Action Started");
@@ -131,6 +192,8 @@ public class WarriorAnimationDemo : MonoBehaviour {
         }
 
         inputVec += (f + b + l + r);
+
+        Debug.Log(inputVec);
     }
 
    
@@ -141,10 +204,10 @@ public class WarriorAnimationDemo : MonoBehaviour {
         float z = inputVec.z;  //-(Input.GetAxisRaw("Sideways_P1"));
                                //	inputVec = new Vector3(-x, 0, -z);
 
-        UpdateMovement();
+       // UpdateMovement();
 		//Apply inputs to animator
-		animator.SetFloat("Input X", z);
-		animator.SetFloat("Input Z", -(x));
+		//animator.SetFloat("Input X", z);
+		//animator.SetFloat("Input Z", -(x));
 
 		if (x != 0 || z != 0 )  //if there is some input
 		{
@@ -161,57 +224,38 @@ public class WarriorAnimationDemo : MonoBehaviour {
 			isMoving = false;
 		}
 
-		if (Input.GetButtonDown("Fire1"))
-		{
-			animator.SetTrigger("Attack1Trigger");
-			if (warrior == Warrior.Brute)
-				StartCoroutine (COStunPause(1.2f));
-			else if (warrior == Warrior.Sorceress)
-				StartCoroutine (COStunPause(1.2f));
-			else
-				StartCoroutine (COStunPause(.6f));
-		}
+        RotateTowardsMovementDir();
+        UpdateMovement();  //update character position and facing
 
-    //	UpdateMovement();  //update character position and facing
-	}
 
-	public IEnumerator COStunPause(float pauseTime)
-	{
-		isStunned = true;
-		yield return new WaitForSeconds(pauseTime);
-		isStunned = false;
-	}
-	
-	void RotateTowardsMovementDir()  //face character along input direction
-	{
-		if (inputVec != Vector3.zero)
-		{
-			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(inputVec), Time.deltaTime * rotationSpeed);
-		}
-	}
+    }
 
-	float UpdateMovement()
-	{
-		Vector3 motion = inputVec;  //get movement input from controls
+    //public IEnumerator COStunPause(float pauseTime)
+    //{
+    //	isStunned = true;
+    //	yield return new WaitForSeconds(pauseTime);
+    //	isStunned = false;
+    //}
 
-		//reduce input for diagonal movement
-		motion *= (Mathf.Abs(inputVec.x) == 1 && Mathf.Abs(inputVec.z) == 1)?.7f:1;
-		
-		RotateTowardsMovementDir();  //if not strafing, face character along input direction
+    void RotateTowardsMovementDir()  //face character along input direction
+    {
+        if (inputVec != Vector3.zero)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(inputVec), Time.deltaTime * rotationSpeed);
+        }
+    }
 
-		return inputVec.magnitude;  //return a movement value for the animator, not currently used
-	}
+   void UpdateMovement()
+   {
+   	Vector3 motion = inputVec;  //get movement input from controls
 
-	void OnGUI () 
-	{
-		if (GUI.Button (new Rect (25, 85, 100, 30), "Attack1")) 
-		{
-			animator.SetTrigger("Attack1Trigger");
+    	//reduce input for diagonal movement
+    	//motion *= (Mathf.Abs(inputVec.x) == 1 && Mathf.Abs(inputVec.z) == 1)?.7f:1;
+        GetComponent<Rigidbody>().velocity = motion *10;
+        Debug.Log(motion);
 
-			if (warrior == Warrior.Brute || warrior == Warrior.Sorceress)  //if character is Brute or Sorceress
-				StartCoroutine (COStunPause(1.2f));
-			else
-				StartCoroutine (COStunPause(.6f));
-		}
-	}
+    //	RotateTowardsMovementDir();  //if not strafing, face character along input direction
+
+   	//return inputVec.magnitude;  //return a movement value for the animator, not currently used
+   }
 }
