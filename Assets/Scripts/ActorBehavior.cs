@@ -46,7 +46,7 @@ public class ActorBehavior : MonoBehaviour
         }
 
         if (key == "Block")
-            animator.SetTrigger("Attack1Trigger");
+            animator.SetBool("Block",true);
     }
 
     public void Hit()
