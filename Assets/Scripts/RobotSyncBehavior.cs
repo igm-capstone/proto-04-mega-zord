@@ -54,9 +54,12 @@ public class RobotSyncBehavior : MonoBehaviour
     public int NumberOfPlayers = 4;
     Dictionary<string, Action> actionDictionary;
 
+    private InputPanelHUD hud;
+
     void Awake()
     {
         actionDictionary = new Dictionary<string, Action>();
+        hud = FindObjectOfType<InputPanelHUD>();
     }
 
     public void ReceiveInput(string key, int playerID, bool state)
@@ -78,6 +81,8 @@ public class RobotSyncBehavior : MonoBehaviour
 
     void ProcessAction(Action action, int playerID, bool state, bool isNew)
     {
+        if (hud) hud.SetPressed(action.Key, playerID, state);
+
         // Updates individual PlayerSyncInfo
         var playerSyncInfo = action.PlayerSyncInfos[playerID];
         if (state)
