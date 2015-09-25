@@ -8,7 +8,7 @@ public class InputManager : MonoBehaviour
     // Class Variables
     // Player information
     [SerializeField]
-    [Range(1, 2)]
+    [Range(1, 4)]
     public int playerID = 1;
 
     //dPad Variables
@@ -118,36 +118,36 @@ public class InputManager : MonoBehaviour
         // RightStrafe
         // GetButtonUp
         if (CurDpadX == 1 && LastDpadX != 1)
-            RobotSyncScrpt.ReceiveInput("Right", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Right", playerID, true);
         // GetButtonDown
         else if (CurDpadX != 1 && LastDpadX == 1)
-            RobotSyncScrpt.ReceiveInput("Right", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Right", playerID, false);
 
         // LeftStrafe
         // GetButtonUp
         if (CurDpadX == -1 && LastDpadX != -1)
-            RobotSyncScrpt.ReceiveInput("Left", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Left", playerID, true);
         // GetButtonDown
         else if (CurDpadX != -1 && LastDpadX == -1)
-            RobotSyncScrpt.ReceiveInput("Left", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Left", playerID, false);
         #endregion
 
         #region Y-Axis
         // Forward
         // GetButtonUp
         if (CurDpadY == 1 && LastDpadY != 1)
-            RobotSyncScrpt.ReceiveInput("Forward", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Forward", playerID, true);
         // GetButtonDown
         else if (CurDpadY != 1 && LastDpadY == 1)
-            RobotSyncScrpt.ReceiveInput("Forward", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Forward", playerID, false);
 
         // Backwards
         // GetButtonUp
         if (CurDpadY == -1 && LastDpadY != -1)
-            RobotSyncScrpt.ReceiveInput("Backwards", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Backward", playerID, true);
         // GetButtonDown
         else if (CurDpadY != -1 && LastDpadY == -1)
-            RobotSyncScrpt.ReceiveInput("Backwards", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Backward", playerID, false);
         #endregion
 
         // Update last X and Y
