@@ -98,11 +98,11 @@ public class InputPanelHUD : MonoBehaviour {
     {
         switch (key)
         {
-            case "Up":
+            case "Forward":
                 return 4;
             case "Right":
                 return 5;
-            case "Down":
+            case "Backward":
                 return 6;
             case "Left":
                 return 7;
