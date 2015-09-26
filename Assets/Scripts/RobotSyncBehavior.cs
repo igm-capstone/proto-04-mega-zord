@@ -85,6 +85,7 @@ public class RobotSyncBehavior : MonoBehaviour
 
     Dictionary<string, Action> actionDictionary;
 
+    int[] joystickIDs;
     private InputPanelHUD hud;
 
     void Awake()
@@ -95,14 +96,13 @@ public class RobotSyncBehavior : MonoBehaviour
         actionDictionary = new Dictionary<string, Action>();
         hud = FindObjectOfType<InputPanelHUD>();
 
-        foreach (InputManager script in GetComponents<InputManager>())
-        {
-            Destroy(script);
-        }
+        joystickIDs = new int[NumberOfPlayers+1];
+        int controllersBeingUsed = FindObjectsOfType<InputManager>().Length;
         for (int pID = 1; pID <= NumberOfPlayers; pID++)
         {
             InputManager input = gameObject.AddComponent<InputManager>();
-            input.joystickID = PlayerID2JoystickID(pID);
+            input.joystickID = controllersBeingUsed + pID;
+            joystickIDs[pID] = controllersBeingUsed + pID;
         }
     }
 
@@ -126,8 +126,6 @@ public class RobotSyncBehavior : MonoBehaviour
     void ProcessAction(Action action, int playerID, bool state, bool isNew)
     {
         if (hud) hud.SetPressed(action.Key, playerID, state);
-
-        playerID = playerID % 4;
 
         // Updates individual PlayerSyncInfo
         playerID = playerID % NumberOfPlayers;
@@ -183,11 +181,7 @@ public class RobotSyncBehavior : MonoBehaviour
         }
     }
 
-    private int JoystickID2PlayerID (int joystickID) {
-        return joystickID - (RobotID - 1) * NumberOfPlayers;
-    }
-
-    private int PlayerID2JoystickID (int playerID) {
-        return (RobotID - 1) * NumberOfPlayers + playerID;
+    public int PlayerID2JoystickID(int playerID) {
+        return joystickIDs[playerID];
     }
 }
