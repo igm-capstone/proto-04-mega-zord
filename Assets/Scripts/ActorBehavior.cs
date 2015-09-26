@@ -10,9 +10,8 @@ public class ActorBehavior : MonoBehaviour
     // Movement Variables
     Vector3 moveVec;
     private Transform targetRobot;
-    public float moveSpeed = 10.0f;
-    public float maxRadius = 100.0f;
-    public float minRadius = 1.0f; 
+    //public float maxRadius = 100.0f;
+    //public float minRadius = 1.0f; 
 
     // Input Variables
     string readKey;
@@ -35,7 +34,7 @@ public class ActorBehavior : MonoBehaviour
     void Start()
     {
         // Get components
-        rbtSyncBhvr = GetComponent<RobotSyncBehavior>();
+        rbtSyncBhvr = transform.parent.GetComponent<RobotSyncBehavior>();
         //animator = GetComponent<Animator>();
 
         // Robot Sync Initialization
@@ -56,7 +55,6 @@ public class ActorBehavior : MonoBehaviour
 
     void Update()
     {
-
         if (moveVec.magnitude != 0)  //if there is some input
         {
             //set that character is moving
@@ -215,49 +213,67 @@ public class ActorBehavior : MonoBehaviour
     {
         moveVec = new Vector3();
         Vector3 f = new Vector3();
+
+        float adjstConst = 5;
+        float speedScale = 2;
+
         if (forward != null)
         {
             int count = 0;
+            float moveSpeed = 0;
             foreach (PlayerSyncInfo psi in forward.PlayerSyncInfos)
             {
                 if (psi.IsPressing()) { count++; }
             }
-            f += Vector3.forward * count;
+
+            moveSpeed = ((Mathf.Exp(adjstConst / rbtSyncBhvr.NumberOfPlayers* count) - 1) / 10);
+            moveSpeed /= speedScale;
+            f = Vector3.forward * moveSpeed;
         }
 
         Vector3 b = new Vector3();
         if (backward != null)
         {
             int count = 0;
+            float moveSpeed = 0;
             foreach (PlayerSyncInfo psi in backward.PlayerSyncInfos)
             {
                 if (psi.IsPressing()) { count++; }
             }
-            b -= Vector3.forward * count;
+            moveSpeed = -((Mathf.Exp(adjstConst / rbtSyncBhvr.NumberOfPlayers * count) - 1) / 10);
+            moveSpeed /= speedScale;
+            b = Vector3.forward * moveSpeed;
         }
 
         Vector3 r = new Vector3();
         if (right != null)
         {
             int count = 0;
+            float moveSpeed = 0;
             foreach (PlayerSyncInfo psi in right.PlayerSyncInfos)
             {
                 if (psi.IsPressing()) { count++; }
             }
-            r += Vector3.right * count;
+            moveSpeed = ((Mathf.Exp(adjstConst / rbtSyncBhvr.NumberOfPlayers * count) - 1) / 10);
+            moveSpeed /= speedScale;
+            r = Vector3.right * moveSpeed;
         }
 
         Vector3 l = new Vector3();
         if (left != null)
         {
             int count = 0;
+            float moveSpeed = 0;
             foreach (PlayerSyncInfo psi in left.PlayerSyncInfos)
             {
                 if (psi.IsPressing()) { count++; }
             }
-            l -= Vector3.right * count;
+            moveSpeed = -((Mathf.Exp(adjstConst / rbtSyncBhvr.NumberOfPlayers * count) - 1) / 10);
+            moveSpeed /= speedScale;
+            l = Vector3.right * moveSpeed;
         }
 
+        Debug.Log(moveVec);
         moveVec += (f + b + l + r);
     }
 
@@ -270,7 +286,7 @@ public class ActorBehavior : MonoBehaviour
         transform.LookAt(targetRobot);
 
         // Aplies Movement
-        GetComponent<Rigidbody>().velocity = motion* moveSpeed;
+        transform.parent.GetComponent<Rigidbody>().velocity = motion;
     }
 
     public void Hit()

@@ -116,9 +116,6 @@ public class RobotSyncBehavior : MonoBehaviour
             actionDictionary.Add(key, action);
             isNew = true;
         }
-        
-        // Print buttom pressed on the screen
-        //Debug.Log("Key received: " + key);
 
         ProcessAction(action, playerID, state, isNew);
     }
