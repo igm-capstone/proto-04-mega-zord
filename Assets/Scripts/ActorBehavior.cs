@@ -103,7 +103,7 @@ public class ActorBehavior : MonoBehaviour
         else if (obj == "Block")
             block = null;
 
-        UpdateActions();
+        UpdateMovementActions();
     }
 
     private void rb_ActionStarted(Action obj)
@@ -134,42 +134,84 @@ public class ActorBehavior : MonoBehaviour
             block = obj;
 
         //Debug.Log("Action Started");
-        UpdateActions();
+        UpdateMovementActions();
     }
     
     private void rb_ActionChanged(Action evalAction)
     {
-        readKey = evalAction.Key;
-        if (readKey == "LeftPunch")
-        {
-            animator.SetBool("MirrorPunch", true);
-            animator.SetTrigger("PunchTrigger");
-        }
-        if (readKey == "RightPunch")
-        {
-            animator.SetBool("MirrorPunch", false);
-            animator.SetTrigger("PunchTrigger");
-        }
-
-        if (readKey == "LeftKick")
-        {
-            animator.SetBool("MirrorKick", false);
-            animator.SetTrigger("KickTrigger");
-        }
-        if (readKey == "RightKick")
-        {
-            animator.SetBool("MirrorKick", true);
-            animator.SetTrigger("KickTrigger");
-        }
-
-        if (readKey == "Block")
-            animator.SetBool("Block",true);
-
-        //Debug.Log("Action Changed");
-        UpdateActions();    // Updates the movement actions.
+        UpdateAttackActions();
+        UpdateMovementActions();    // Updates the movement actions.
     }
 
-    void UpdateActions()
+    void UpdateAttackActions()
+    {
+        if (rightPunch != null)
+        {
+            if (rightPunch.IsSynchronized())
+            {
+                animator.SetBool("MirrorPunch", false);
+                animator.SetTrigger("PunchTrigger");
+                rbtSyncBhvr.TerminateAction("RightPunch");
+            }
+            else if (!rightPunch.IsActive()) {
+                rbtSyncBhvr.TerminateAction("RightPunch");
+            }
+        }
+        else if (leftPunch != null)
+        {
+            if (leftPunch.IsSynchronized())
+            {
+                animator.SetBool("MirrorPunch", true);
+                animator.SetTrigger("PunchTrigger");
+                rbtSyncBhvr.TerminateAction("LeftPunch");
+            }
+            else if (!leftPunch.IsActive())
+            {
+                rbtSyncBhvr.TerminateAction("LeftPunch");
+            }
+        }
+        else if (leftKick != null)
+        {
+            if (leftKick.IsSynchronized())
+            {
+                animator.SetBool("MirrorKick", false);
+                animator.SetTrigger("KickTrigger");
+                rbtSyncBhvr.TerminateAction("LeftKick");
+            }
+            else if (!leftKick.IsActive())
+            {
+                rbtSyncBhvr.TerminateAction("LeftKick");
+            }
+        }
+        else if (rightKick != null)
+        {
+            if (rightKick.IsSynchronized())
+            {
+                animator.SetBool("MirrorKick", true);
+                animator.SetTrigger("KickTrigger");
+                rbtSyncBhvr.TerminateAction("RightKick");
+            }
+            else if (!rightKick.IsActive())
+            {
+                rbtSyncBhvr.TerminateAction("RightKick");
+            }
+        }
+        else if (block != null)
+        {
+            if (block.IsSynchronized())
+            {
+                animator.SetBool("Block", true);
+                rbtSyncBhvr.TerminateAction("Block");
+            }
+            else if (!block.IsActive())
+            {
+                rbtSyncBhvr.TerminateAction("Block");
+            }
+        }
+    }
+
+
+    void UpdateMovementActions()
     {
         moveVec = new Vector3();
         Vector3 f = new Vector3();
@@ -233,8 +275,7 @@ public class ActorBehavior : MonoBehaviour
 
     public void Hit()
     {        
-        Debug.Log("hittttttttttttttttttttt");
-        rbtSyncBhvr.ActionTerminated += rb_ActionTerminated;
+
         rbtSyncBhvr.TerminateAction(readKey);
     }
 }
