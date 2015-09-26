@@ -20,6 +20,33 @@ public class Action
             PlayerSyncInfos[i] = new PlayerSyncInfo(i);
         }
     }
+
+    public bool IsSynchronized()       // All players synchronized in this action
+    {
+        foreach (PlayerSyncInfo psi in PlayerSyncInfos)
+        {
+            if (!psi.IsPressing())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool IsActive()    // At Least One Player Participating in action
+    {
+        foreach (PlayerSyncInfo psi in PlayerSyncInfos)
+        {
+            if (psi.IsPressing())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
 
 public class PlayerSyncInfo
@@ -84,6 +111,7 @@ public class RobotSyncBehavior : MonoBehaviour
         if (hud) hud.SetPressed(action.Key, playerID, state);
 
         // Updates individual PlayerSyncInfo
+        playerID = playerID % NumberOfPlayers;
         var playerSyncInfo = action.PlayerSyncInfos[playerID];
         if (state)
         {
