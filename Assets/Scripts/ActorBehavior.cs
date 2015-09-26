@@ -26,6 +26,11 @@ public class ActorBehavior : MonoBehaviour
     Action leftKick;
     Action block;
 
+    GameObject leftHand;
+    GameObject rightHand;
+    GameObject leftFoot;
+    GameObject rightFoot;
+
     // Animation Variables
     bool isMoving;
     bool isStunned;
@@ -43,6 +48,11 @@ public class ActorBehavior : MonoBehaviour
         rbtSyncBhvr.ActionChanged += rb_ActionChanged;
         rbtSyncBhvr.ActionTerminated += rb_ActionTerminated;
 
+        leftHand = transform.FindChild("Motion/B_Pelvis/B_Spine/B_Spine1/B_L_Clavicle/B_L_UpperArm/B_L_Forearm/B_L_Hand").gameObject;
+        rightHand = transform.FindChild("Motion/B_Pelvis/B_Spine/B_Spine1/B_R_Clavicle/B_R_UpperArm/B_R_Forearm/B_R_Hand").gameObject;
+        leftFoot = transform.FindChild("Motion/B_Pelvis/B_L_Thigh/B_L_Calf/B_L_Foot").gameObject;
+        rightFoot = transform.FindChild("Motion/B_Pelvis/B_R_Thigh/B_R_Calf/B_R_Foot").gameObject;
+
         foreach (ActorBehavior actor in FindObjectsOfType<ActorBehavior>())
         {
             if (actor != this)
@@ -51,11 +61,15 @@ public class ActorBehavior : MonoBehaviour
                 break;
             }
         }
+    }
 
+    void Awake()
+    {
+        
     }
 
     void Update()
-    {
+    {         
         if (moveVec.magnitude != 0)  //if there is some input
         {
             //set that character is moving
@@ -150,6 +164,9 @@ public class ActorBehavior : MonoBehaviour
             {
                 animator.SetBool("MirrorPunch", false);
                 animator.SetTrigger("PunchTrigger");
+                rightHand.GetComponent<HitBehavior>().Key = "RightPunch";
+                rightHand.GetComponent<HitBehavior>().SyncScore = rightPunch.SyncScore;
+                // Add num players active.
                 rbtSyncBhvr.TerminateAction("RightPunch");
             }
             else if (!rightPunch.IsActive()) {
@@ -270,6 +287,14 @@ public class ActorBehavior : MonoBehaviour
 
         // Aplies Movement
         transform.parent.GetComponent<Rigidbody>().velocity = motion* moveSpeed;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Received hit");
+        float collisionSync = other.gameObject.GetComponent<HitBehavior>().SyncScore;
+        // Extract data.. apply damage
+            
     }
 
     public void Hit()
