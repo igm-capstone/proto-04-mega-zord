@@ -9,7 +9,7 @@ public class ActorBehavior : MonoBehaviour
 
     // Movement Variables
     Vector3 moveVec;
-    public Transform targetRobot;
+    private Transform targetRobot;
     public float moveSpeed = 10.0f;
     public float maxRadius = 100.0f;
     public float minRadius = 1.0f; 
@@ -42,6 +42,15 @@ public class ActorBehavior : MonoBehaviour
         rbtSyncBhvr.ActionStarted += rb_ActionStarted;
         rbtSyncBhvr.ActionChanged += rb_ActionChanged;
         rbtSyncBhvr.ActionTerminated += rb_ActionTerminated;
+
+        foreach (ActorBehavior actor in FindObjectsOfType<ActorBehavior>())
+        {
+            if (actor != this)
+            {
+                targetRobot = actor.transform;
+                break;
+            }
+        }
 
     }
 
