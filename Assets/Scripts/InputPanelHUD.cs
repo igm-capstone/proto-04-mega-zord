@@ -31,7 +31,7 @@ public class InputPanelHUD : MonoBehaviour {
 
         panelAnimator = GetComponent<Animator>();
         sprites = Resources.LoadAll<Sprite>("Sprites/circles");
-        atkImage = GameObject.Find("AtkImage").GetComponent<Image>();
+        atkImage = transform.FindChild("AtkImage").GetComponent<Image>();
         health = transform.parent.GetComponentInChildren<Slider>();
         healthFill = health.transform.FindChild("Fill Area").GetComponentInChildren<Image>();
 
@@ -75,7 +75,6 @@ public class InputPanelHUD : MonoBehaviour {
     public void SetPressed(string key, int playerID, bool state)
     {
         //Not nice, but eh
-        //TODO: 8 players
         if (state == true)
         {
             imageBtn[playerID - 1].sprite = sprites[KeyStringToSpriteNumber(key)];

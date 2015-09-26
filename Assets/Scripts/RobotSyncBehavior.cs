@@ -94,7 +94,7 @@ public class RobotSyncBehavior : MonoBehaviour
         c.rect = new Rect((RobotID == 1) ? 0 : 0.5f, 0, 0.5f, 1);
 
         actionDictionary = new Dictionary<string, Action>();
-        hud = FindObjectOfType<InputPanelHUD>();
+        hud = GetComponentInChildren<InputPanelHUD>();
 
         joystickIDs = new int[NumberOfPlayers+1];
         int controllersBeingUsed = FindObjectsOfType<InputManager>().Length;
@@ -106,7 +106,7 @@ public class RobotSyncBehavior : MonoBehaviour
         }
     }
 
-    public void ReceiveInput(string key, int playerID, bool state)
+    public void ReceiveInput(string key, int joystickID, bool state)
     {
         bool isNew = false;
         Action action;
@@ -117,7 +117,7 @@ public class RobotSyncBehavior : MonoBehaviour
             isNew = true;
         }
 
-        ProcessAction(action, playerID, state, isNew);
+        ProcessAction(action, JoystickID2PlayerID(joystickID), state, isNew);
     }
 
     void ProcessAction(Action action, int playerID, bool state, bool isNew)
@@ -178,7 +178,15 @@ public class RobotSyncBehavior : MonoBehaviour
         }
     }
 
-    public int PlayerID2JoystickID(int playerID) {
+    public int PlayerID2JoystickID(int playerID)
+    {
         return joystickIDs[playerID];
+    }
+
+    public int JoystickID2PlayerID(int playerID)
+    {
+        for (int i = 0; i < joystickIDs.Length; i++)
+            if (playerID == joystickIDs[i]) return i;
+        return 1;
     }
 }
