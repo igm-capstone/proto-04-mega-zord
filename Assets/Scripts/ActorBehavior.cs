@@ -316,7 +316,6 @@ public class ActorBehavior : MonoBehaviour
 
     public void Hit()
     {        
-
-        rbtSyncBhvr.TerminateAction(readKey);
+        // Nothing for now.
     }
 }

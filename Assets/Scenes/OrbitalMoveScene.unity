@@ -192,6 +192,10 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 22498860, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 804.625
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
   m_IsPrefabParent: 0
@@ -252,7 +256,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11435602, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: NumberOfPlayers
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22498860, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 804.625
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
