@@ -6,28 +6,43 @@ using System;
 
 public class InputPanelHUD : MonoBehaviour {
 
-    [Range(2, 4)]
-    public int numberOfPlayers = 4;
+    private RobotSyncBehavior robot;
+    private int numberOfPlayers = 4;
+    private int robotID = 1;
 
     private Animator panelAnimator;
     private Animator[] animator;
     private Sprite[] sprites;
     private Image[] imageBtn;
     private Image atkImage;
+    private Slider health;
+    private Image healthFill;
+
     private int[] currentPress;
 
     // Use this for initialization
 	void Start () {
+        robot = transform.parent.parent.GetComponent<RobotSyncBehavior>();
+        if (robot)
+        {
+            numberOfPlayers = robot.NumberOfPlayers;
+            robotID = robot.RobotID;
+        }
+
         panelAnimator = GetComponent<Animator>();
         sprites = Resources.LoadAll<Sprite>("Sprites/circles");
         atkImage = GameObject.Find("AtkImage").GetComponent<Image>();
-        
+        health = transform.parent.GetComponentInChildren<Slider>();
+        healthFill = health.transform.FindChild("Fill Area").GetComponentInChildren<Image>();
+
         imageBtn = new Image[numberOfPlayers];
         currentPress = new int[numberOfPlayers];
         animator = new Animator[numberOfPlayers];
+
         for (int i = 0; i < numberOfPlayers; i++)
         {
             GameObject playerPanel = transform.GetChild(i).gameObject;
+            playerPanel.transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = sprites[11 + robot.PlayerID2JoystickID(i+1)];
             imageBtn[i] = playerPanel.transform.GetChild(1).gameObject.GetComponentInChildren<Image>();
             animator[i] = playerPanel.GetComponent<Animator>();
             currentPress[i] = -1;
@@ -37,9 +52,21 @@ public class InputPanelHUD : MonoBehaviour {
         for (int i = numberOfPlayers; i < 4; i++)
         {
             transform.GetChild(i).gameObject.SetActive(false);
+            //To much trouble...
+            //RectTransform t = (RectTransform) transform;
+            //t.sizeDelta = new Vector2(t.rect.width - 120, t.rect.height);
         }
+
+        StartCoroutine(Test());
 	}
-	
+
+    IEnumerator Test()
+    {
+        for (float i = 1; i > 0; i-=0.01f) {
+            SetHealth(i);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 	// Update is called once per frame
 	void Update () {
 	
@@ -120,4 +147,21 @@ public class InputPanelHUD : MonoBehaviour {
         }
         return 15;
     }
+
+    public void SetHealth(float percentage) {
+        health.value = percentage;
+        if (percentage > 0.5f)
+        {
+            healthFill.color = new Color(25.0f / 255.0f, 108.0f / 255.0f, 0, 1);
+        }
+        else if (percentage > 0.15f)
+        {
+            healthFill.color = new Color(187.0f / 255.0f, 156.0f / 255.0f, 0, 1);
+        }
+        else
+        {
+            healthFill.color = new Color(143.0f / 255.0f, 0, 0, 1);
+        }
+    }
+
 }

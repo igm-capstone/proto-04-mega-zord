@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 5d8fbefa1aec5ea48a85e2d28eb78c7c
-timeCreated: 1443205254
+timeCreated: 1443301052
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -20,6 +20,10 @@ TextureImporter:
     21300026: circles_13
     21300028: circles_14
     21300030: circles_15
+    21300032: circles_16
+    21300034: circles_17
+    21300036: circles_18
+    21300038: circles_19
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -69,7 +73,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 194
+        y: 256
         width: 64
         height: 64
       alignment: 0
@@ -79,7 +83,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 194
+        y: 256
         width: 64
         height: 64
       alignment: 0
@@ -89,7 +93,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 194
+        y: 256
         width: 64
         height: 64
       alignment: 0
@@ -99,7 +103,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 194
+        y: 256
         width: 64
         height: 64
       alignment: 0
@@ -109,7 +113,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 130
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -119,7 +123,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 130
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -129,7 +133,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 130
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -139,7 +143,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 130
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -149,7 +153,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 66
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -159,7 +163,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 66
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -169,7 +173,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 66
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -179,7 +183,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 66
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -189,7 +193,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 2
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -199,7 +203,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 2
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -209,7 +213,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 2
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -219,7 +223,47 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 2
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: circles_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: circles_17
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: circles_18
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: circles_19
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
         width: 64
         height: 64
       alignment: 0
