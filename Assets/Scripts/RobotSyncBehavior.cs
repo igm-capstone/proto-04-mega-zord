@@ -60,19 +60,26 @@ public class RobotSyncBehavior : MonoBehaviour
 
     private InputPanelHUD hud;
 
+    [ExecuteInEditMode]
     void Awake()
     {
-        actionDictionary = new Dictionary<string, Action>();
-        hud = FindObjectOfType<InputPanelHUD>();
+        Camera c = gameObject.GetComponentInChildren<Camera>();
+        c.rect = new Rect((RobotID == 1) ? 0 : 0.5f, 0, 0.5f, 1);
 
-        foreach (InputManager script in GetComponents<InputManager>())
+        if (Application.isPlaying)
         {
-            Destroy(script);
-        }
-        for (int pID = 1; pID <= NumberOfPlayers; pID++)
-        {
-            InputManager input = gameObject.AddComponent<InputManager>();
-            input.joystickID = PlayerID2JoystickID(pID);
+            actionDictionary = new Dictionary<string, Action>();
+            hud = FindObjectOfType<InputPanelHUD>();
+
+            foreach (InputManager script in GetComponents<InputManager>())
+            {
+                Destroy(script);
+            }
+            for (int pID = 1; pID <= NumberOfPlayers; pID++)
+            {
+                InputManager input = gameObject.AddComponent<InputManager>();
+                input.joystickID = PlayerID2JoystickID(pID);
+            }
         }
     }
 

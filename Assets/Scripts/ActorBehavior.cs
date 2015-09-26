@@ -237,9 +237,4 @@ public class ActorBehavior : MonoBehaviour
         rbtSyncBhvr.ActionTerminated += rb_ActionTerminated;
         rbtSyncBhvr.TerminateAction(readKey);
     }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, targetRobot.position);
-    }
 }
