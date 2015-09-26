@@ -51,7 +51,11 @@ public class RobotSyncBehavior : MonoBehaviour
     public event System.Action<Action> ActionChanged;
     public event System.Action<string> ActionTerminated;
 
+    [Range(1, 2)]
+    public int RobotID = 1;
+    [Range(1, 4)]
     public int NumberOfPlayers = 4;
+
     Dictionary<string, Action> actionDictionary;
 
     private InputPanelHUD hud;
@@ -60,6 +64,16 @@ public class RobotSyncBehavior : MonoBehaviour
     {
         actionDictionary = new Dictionary<string, Action>();
         hud = FindObjectOfType<InputPanelHUD>();
+
+        foreach (InputManager script in GetComponents<InputManager>())
+        {
+            Destroy(script);
+        }
+        for (int pID = 1; pID <= NumberOfPlayers; pID++)
+        {
+            InputManager input = gameObject.AddComponent<InputManager>();
+            input.joystickID = PlayerID2JoystickID(pID);
+        }
     }
 
     public void ReceiveInput(string key, int playerID, bool state)
@@ -136,5 +150,13 @@ public class RobotSyncBehavior : MonoBehaviour
         {
             ActionTerminated(key);
         }
+    }
+
+    private int JoystickID2PlayerID (int joystickID) {
+        return joystickID - (RobotID - 1) * NumberOfPlayers;
+    }
+
+    private int PlayerID2JoystickID (int playerID) {
+        return (RobotID - 1) * NumberOfPlayers + playerID;
     }
 }

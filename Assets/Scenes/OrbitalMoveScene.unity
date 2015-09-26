@@ -96,6 +96,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 49536916}
   - 95: {fileID: 49536917}
+  - 114: {fileID: 49536918}
   m_Layer: 0
   m_Name: RobotMesh
   m_TagString: Player
@@ -136,6 +137,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &49536918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11447108, guid: 2c7381419435e974e89941b0aed18d04,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 49536915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb6f560d377a84247b6af86b743d1216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &103612293
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,9 +498,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 333788842}
   - 54: {fileID: 333788848}
-  - 114: {fileID: 333788847}
-  - 114: {fileID: 333788846}
   - 114: {fileID: 333788845}
+  - 114: {fileID: 333788844}
   - 114: {fileID: 333788843}
   m_Layer: 0
   m_Name: SorcererRobot 2
@@ -522,6 +534,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offsetVec: {x: .5, y: .5, z: .5}
+--- !u!114 &333788844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11416102, guid: 2c7381419435e974e89941b0aed18d04,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 333788841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d21ae312f5ca1f49922dc57045a5636, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 49536917}
+  targetRobot: {fileID: 0}
+  moveSpeed: 10
+  maxRadius: 100
+  minRadius: 1
 --- !u!114 &333788845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,33 +563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d314dab7d08e6147925e906b7c2e615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RobotID: 2
   NumberOfPlayers: 4
---- !u!114 &333788846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11439836, guid: 2c7381419435e974e89941b0aed18d04,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 333788841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b35f202099779a14ba03e7804571fd4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 4
---- !u!114 &333788847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11408200, guid: 2c7381419435e974e89941b0aed18d04,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 333788841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b35f202099779a14ba03e7804571fd4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 3
 --- !u!54 &333788848
 Rigidbody:
   m_ObjectHideFlags: 0
