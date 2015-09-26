@@ -164,6 +164,7 @@ GameObject:
   - 4: {fileID: 450120}
   - 95: {fileID: 9507460}
   - 114: {fileID: 11447108}
+  - 114: {fileID: 11482836}
   m_Layer: 0
   m_Name: RobotMesh
   m_TagString: Player
@@ -287,7 +288,6 @@ GameObject:
   - 4: {fileID: 480262}
   - 54: {fileID: 5457958}
   - 114: {fileID: 11435602}
-  - 114: {fileID: 11416102}
   - 114: {fileID: 11418674}
   m_Layer: 0
   m_Name: SorcererRobot
@@ -1468,7 +1468,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143182}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 450120}
@@ -1621,7 +1621,7 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: .5
+    width: 1
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
@@ -1687,21 +1687,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11416102
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d21ae312f5ca1f49922dc57045a5636, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 9507460}
-  moveSpeed: 10
-  maxRadius: 100
-  minRadius: 1
 --- !u!114 &11418674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1738,6 +1723,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6f560d377a84247b6af86b743d1216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11482836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d21ae312f5ca1f49922dc57045a5636, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 9507460}
+  moveSpeed: 10
+  maxRadius: 100
+  minRadius: 1
 --- !u!124 &12479258
 Behaviour:
   m_ObjectHideFlags: 1
@@ -1881,7 +1881,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_NormalizedViewPortRect.width
-      value: .5
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

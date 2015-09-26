@@ -34,7 +34,7 @@ public class ActorBehavior : MonoBehaviour
     void Start()
     {
         // Get components
-        rbtSyncBhvr = GetComponent<RobotSyncBehavior>();
+        rbtSyncBhvr = transform.parent.GetComponent<RobotSyncBehavior>();
         //animator = GetComponent<Animator>();
 
         // Robot Sync Initialization
@@ -55,7 +55,6 @@ public class ActorBehavior : MonoBehaviour
 
     void Update()
     {
-
         if (moveVec.magnitude != 0)  //if there is some input
         {
             //set that character is moving
@@ -287,7 +286,7 @@ public class ActorBehavior : MonoBehaviour
         transform.LookAt(targetRobot);
 
         // Aplies Movement
-        GetComponent<Rigidbody>().velocity = motion;
+        transform.parent.GetComponent<Rigidbody>().velocity = motion* moveSpeed;
     }
 
     public void Hit()

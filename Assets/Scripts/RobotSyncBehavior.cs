@@ -87,26 +87,22 @@ public class RobotSyncBehavior : MonoBehaviour
 
     private InputPanelHUD hud;
 
-    [ExecuteInEditMode]
     void Awake()
     {
         Camera c = gameObject.GetComponentInChildren<Camera>();
         c.rect = new Rect((RobotID == 1) ? 0 : 0.5f, 0, 0.5f, 1);
 
-        if (Application.isPlaying)
-        {
-            actionDictionary = new Dictionary<string, Action>();
-            hud = FindObjectOfType<InputPanelHUD>();
+        actionDictionary = new Dictionary<string, Action>();
+        hud = FindObjectOfType<InputPanelHUD>();
 
-            foreach (InputManager script in GetComponents<InputManager>())
-            {
-                Destroy(script);
-            }
-            for (int pID = 1; pID <= NumberOfPlayers; pID++)
-            {
-                InputManager input = gameObject.AddComponent<InputManager>();
-                input.joystickID = PlayerID2JoystickID(pID);
-            }
+        foreach (InputManager script in GetComponents<InputManager>())
+        {
+            Destroy(script);
+        }
+        for (int pID = 1; pID <= NumberOfPlayers; pID++)
+        {
+            InputManager input = gameObject.AddComponent<InputManager>();
+            input.joystickID = PlayerID2JoystickID(pID);
         }
     }
 
@@ -120,9 +116,6 @@ public class RobotSyncBehavior : MonoBehaviour
             actionDictionary.Add(key, action);
             isNew = true;
         }
-        
-        // Print buttom pressed on the screen
-        //Debug.Log("Key received: " + key);
 
         ProcessAction(action, playerID, state, isNew);
     }
