@@ -146,6 +146,7 @@ public class ActorBehavior : MonoBehaviour
             block = obj;
 
         //Debug.Log("Action Started");
+        UpdateAttackActions();
         UpdateMovementActions();
     }
     
@@ -290,7 +291,6 @@ public class ActorBehavior : MonoBehaviour
             l = Vector3.right * moveSpeed;
         }
 
-        Debug.Log(moveVec);
         moveVec += (f + b + l + r);
     }
 
