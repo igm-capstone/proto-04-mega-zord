@@ -286,7 +286,7 @@ public class ActorBehavior : MonoBehaviour
         transform.LookAt(targetRobot);
 
         // Aplies Movement
-        transform.parent.GetComponent<Rigidbody>().velocity = motion* moveSpeed;
+        transform.parent.GetComponent<Rigidbody>().velocity = motion;
     }
 
     public void Hit()
