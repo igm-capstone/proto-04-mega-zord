@@ -8,7 +8,7 @@ public class InputManager : MonoBehaviour
     // Class Variables
     // Player information
     [SerializeField]
-    [Range(1, 4)]
+    [Range(1, 8)]
     public int playerID = 1;
 
     //dPad Variables
@@ -114,8 +114,8 @@ public class InputManager : MonoBehaviour
         float CurDpadX = Input.GetAxisRaw("DPadX_P" + playerID.ToString());
         float CurDpadY = Input.GetAxisRaw("DPadY_P" + playerID.ToString());
 
-        Debug.Log("CurDpadX: " + CurDpadX.ToString());
-        Debug.Log("CurDpadY: " + CurDpadY.ToString());
+        //Debug.Log("CurDpadX: " + CurDpadX.ToString());
+        //Debug.Log("CurDpadY: " + CurDpadY.ToString());
 
         #region X-Axis
         // RightStrafe

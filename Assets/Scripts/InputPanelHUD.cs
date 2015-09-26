@@ -48,6 +48,7 @@ public class InputPanelHUD : MonoBehaviour {
     public void SetPressed(string key, int playerID, bool state)
     {
         //Not nice, but eh
+        //TODO: 8 players
         if (state == true)
         {
             imageBtn[playerID - 1].sprite = sprites[KeyStringToSpriteNumber(key)];

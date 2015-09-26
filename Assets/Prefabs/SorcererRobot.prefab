@@ -163,6 +163,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 450120}
   - 95: {fileID: 9507460}
+  - 114: {fileID: 11447108}
   m_Layer: 0
   m_Name: RobotMesh
   m_TagString: Player
@@ -1752,6 +1753,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 2
+--- !u!114 &11447108
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb6f560d377a84247b6af86b743d1216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &12479258
 Behaviour:
   m_ObjectHideFlags: 1

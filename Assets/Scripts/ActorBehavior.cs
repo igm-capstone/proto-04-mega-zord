@@ -224,7 +224,7 @@ public class ActorBehavior : MonoBehaviour
 
     public void Hit()
     {        
-        //Debug.Log("hit" + key);
+        Debug.Log("hittttttttttttttttttttt");
         rbtSyncBhvr.ActionTerminated += rb_ActionTerminated;
         rbtSyncBhvr.TerminateAction(readKey);
     }

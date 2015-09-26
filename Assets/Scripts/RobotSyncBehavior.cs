@@ -83,6 +83,8 @@ public class RobotSyncBehavior : MonoBehaviour
     {
         if (hud) hud.SetPressed(action.Key, playerID, state);
 
+        playerID = playerID % 4;
+
         // Updates individual PlayerSyncInfo
         var playerSyncInfo = action.PlayerSyncInfos[playerID];
         if (state)
