@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     // Player information
     [SerializeField]
     [Range(1, 8)]
-    public int playerID = 1;
+    public int joystickID = 1;
 
     //dPad Variables
     float lastX;
@@ -41,67 +41,67 @@ public class InputManager : MonoBehaviour
         // Buttons
         // LeftPunch_P axis
         keyRead = "LeftPunch";
-        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
+        if (Input.GetButtonUp(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = false;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
+        else if (Input.GetButtonDown(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = true;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
 
         // RightPunch_P axis
         keyRead = "RightPunch";
-        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
+        if (Input.GetButtonUp(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = false;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
+        else if (Input.GetButtonDown(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = true;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
 
         // LeftKick_P axis
         keyRead = "LeftKick";
-        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
+        if (Input.GetButtonUp(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = false;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
+        else if (Input.GetButtonDown(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = true;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
 
         // RightKick_P axis
         keyRead = "RightKick";
-        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
+        if (Input.GetButtonUp(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = false;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
+        else if (Input.GetButtonDown(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = true;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
 
         // Block_P axis
         keyRead = "Block";
-        if (Input.GetButtonUp(keyRead + "_P" + playerID.ToString()))
+        if (Input.GetButtonUp(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = false;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
-        else if (Input.GetButtonDown(keyRead + "_P" + playerID.ToString()))
+        else if (Input.GetButtonDown(keyRead + "_P" + joystickID.ToString()))
         {
             keyState = true;
-            RobotSyncScrpt.ReceiveInput(keyRead, playerID, keyState);
+            RobotSyncScrpt.ReceiveInput(keyRead, joystickID, keyState);
         }
     }
 
@@ -111,8 +111,8 @@ public class InputManager : MonoBehaviour
         float LastDpadX = lastX;
         float LastDpadY = lastY;
 
-        float CurDpadX = Input.GetAxisRaw("DPadX_P" + playerID.ToString());
-        float CurDpadY = Input.GetAxisRaw("DPadY_P" + playerID.ToString());
+        float CurDpadX = Input.GetAxisRaw("DPadX_P" + joystickID.ToString());
+        float CurDpadY = Input.GetAxisRaw("DPadY_P" + joystickID.ToString());
 
         //Debug.Log("CurDpadX: " + CurDpadX.ToString());
         //Debug.Log("CurDpadY: " + CurDpadY.ToString());
@@ -121,36 +121,36 @@ public class InputManager : MonoBehaviour
         // RightStrafe
         // GetButtonUp
         if (CurDpadX == 1.0f && LastDpadX != 1.0f)
-            RobotSyncScrpt.ReceiveInput("Right", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Right", joystickID, true);
         // GetButtonDown
         else if (CurDpadX != 1.0f && LastDpadX == 1.0f)
-            RobotSyncScrpt.ReceiveInput("Right", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Right", joystickID, false);
 
         // LeftStrafe
         // GetButtonUp
         if (CurDpadX == -1.0f && LastDpadX != -1.0f)
-            RobotSyncScrpt.ReceiveInput("Left", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Left", joystickID, true);
         // GetButtonDown
         else if (CurDpadX != -1.0f && LastDpadX == -1.0f)
-            RobotSyncScrpt.ReceiveInput("Left", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Left", joystickID, false);
         #endregion
 
         #region Y-Axis
         // Forward
         // GetButtonUp
         if (CurDpadY == 1.0f && LastDpadY != 1.0f)
-            RobotSyncScrpt.ReceiveInput("Forward", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Forward", joystickID, true);
         // GetButtonDown
         else if (CurDpadY != 1.0f && LastDpadY == 1.0f)
-            RobotSyncScrpt.ReceiveInput("Forward", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Forward", joystickID, false);
 
         // Backwards
         // GetButtonUp
         if (CurDpadY == -1.0f && LastDpadY != -1.0f)
-            RobotSyncScrpt.ReceiveInput("Backward", playerID, true);
+            RobotSyncScrpt.ReceiveInput("Backward", joystickID, true);
         // GetButtonDown
         else if (CurDpadY != -1.0f && LastDpadY == -1.0f)
-            RobotSyncScrpt.ReceiveInput("Backward", playerID, false);
+            RobotSyncScrpt.ReceiveInput("Backward", joystickID, false);
         #endregion
         
         // Update last X and Y

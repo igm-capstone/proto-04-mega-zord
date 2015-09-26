@@ -286,8 +286,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 480262}
   - 54: {fileID: 5457958}
-  - 114: {fileID: 11408200}
-  - 114: {fileID: 11439836}
   - 114: {fileID: 11435602}
   - 114: {fileID: 11416102}
   - 114: {fileID: 11418674}
@@ -1623,7 +1621,7 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
+    width: .5
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
@@ -1664,7 +1662,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 110942}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!92 &9298854
 Behaviour:
   m_ObjectHideFlags: 1
@@ -1689,18 +1687,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11408200
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b35f202099779a14ba03e7804571fd4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 1
 --- !u!114 &11416102
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1713,7 +1699,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 9507460}
-  targetRobot: {fileID: 0}
   moveSpeed: 10
   maxRadius: 100
   minRadius: 1
@@ -1740,19 +1725,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d314dab7d08e6147925e906b7c2e615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RobotID: 1
   NumberOfPlayers: 4
---- !u!114 &11439836
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b35f202099779a14ba03e7804571fd4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 2
 --- !u!114 &11447108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1900,7 +1874,15 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: .5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 143182}
