@@ -114,42 +114,45 @@ public class InputManager : MonoBehaviour
         float CurDpadX = Input.GetAxisRaw("DPadX_P" + playerID.ToString());
         float CurDpadY = Input.GetAxisRaw("DPadY_P" + playerID.ToString());
 
+        Debug.Log("CurDpadX: " + CurDpadX.ToString());
+        Debug.Log("CurDpadY: " + CurDpadY.ToString());
+
         #region X-Axis
         // RightStrafe
         // GetButtonUp
-        if (CurDpadX == 1 && LastDpadX != 1)
+        if (CurDpadX == 1.0f && LastDpadX != 1.0f)
             RobotSyncScrpt.ReceiveInput("Right", playerID, true);
         // GetButtonDown
-        else if (CurDpadX != 1 && LastDpadX == 1)
+        else if (CurDpadX != 1.0f && LastDpadX == 1.0f)
             RobotSyncScrpt.ReceiveInput("Right", playerID, false);
 
         // LeftStrafe
         // GetButtonUp
-        if (CurDpadX == -1 && LastDpadX != -1)
+        if (CurDpadX == -1.0f && LastDpadX != -1.0f)
             RobotSyncScrpt.ReceiveInput("Left", playerID, true);
         // GetButtonDown
-        else if (CurDpadX != -1 && LastDpadX == -1)
+        else if (CurDpadX != -1.0f && LastDpadX == -1.0f)
             RobotSyncScrpt.ReceiveInput("Left", playerID, false);
         #endregion
 
         #region Y-Axis
         // Forward
         // GetButtonUp
-        if (CurDpadY == 1 && LastDpadY != 1)
+        if (CurDpadY == 1.0f && LastDpadY != 1.0f)
             RobotSyncScrpt.ReceiveInput("Forward", playerID, true);
         // GetButtonDown
-        else if (CurDpadY != 1 && LastDpadY == 1)
+        else if (CurDpadY != 1.0f && LastDpadY == 1.0f)
             RobotSyncScrpt.ReceiveInput("Forward", playerID, false);
 
         // Backwards
         // GetButtonUp
-        if (CurDpadY == -1 && LastDpadY != -1)
+        if (CurDpadY == -1.0f && LastDpadY != -1.0f)
             RobotSyncScrpt.ReceiveInput("Backward", playerID, true);
         // GetButtonDown
-        else if (CurDpadY != -1 && LastDpadY == -1)
+        else if (CurDpadY != -1.0f && LastDpadY == -1.0f)
             RobotSyncScrpt.ReceiveInput("Backward", playerID, false);
         #endregion
-
+        
         // Update last X and Y
         lastX = CurDpadX;
         lastY = CurDpadY;

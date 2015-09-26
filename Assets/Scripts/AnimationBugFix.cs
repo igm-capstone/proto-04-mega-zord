@@ -5,6 +5,7 @@ using System.Collections;
 public class AnimationBugFix : MonoBehaviour
 {
     Transform RobotMesh;
+    public Vector3 offsetVec = new Vector3(0.5f, 0.5f, 0.5f);
 
 	// Use this for initialization
 	void Start ()
@@ -15,10 +16,9 @@ public class AnimationBugFix : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        Vector3 offsetVec = new Vector3(0.5f, 0.5f, 0.5f);
-        if(RobotMesh.localPosition.x > offsetVec.x ||
-            RobotMesh.localPosition.y > offsetVec.y ||
-            RobotMesh.localPosition.z > offsetVec.z)
+        if(Mathf.Abs(RobotMesh.localPosition.x) > offsetVec.x ||
+            Mathf.Abs(RobotMesh.localPosition.y) > offsetVec.y ||
+            Mathf.Abs(RobotMesh.localPosition.z) > offsetVec.z)
         {
             RobotMesh.localPosition = Vector3.zero;
         }

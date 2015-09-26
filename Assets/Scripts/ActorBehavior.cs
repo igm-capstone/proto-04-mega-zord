@@ -9,6 +9,10 @@ public class ActorBehavior : MonoBehaviour
 
     // Movement Variables
     Vector3 moveVec;
+    public Transform targetRobot;
+    public float moveSpeed = 10.0f;
+    public float maxRadius = 100.0f;
+    public float minRadius = 1.0f; 
 
     // Input Variables
     string readKey;
@@ -58,7 +62,9 @@ public class ActorBehavior : MonoBehaviour
             animator.SetBool("Running", false);
             isMoving = false;
         }
-        UpdateMovement();  //update character Velocity
+
+        UpdateMovement();  //update character Velocity 
+
     }
 
     private void rb_ActionTerminated(string obj)
@@ -118,7 +124,7 @@ public class ActorBehavior : MonoBehaviour
         else if (obj.Key == "Block")
             block = obj;
 
-        Debug.Log("Action Started");
+        //Debug.Log("Action Started");
         UpdateActions();
     }
     
@@ -150,14 +156,13 @@ public class ActorBehavior : MonoBehaviour
         if (readKey == "Block")
             animator.SetBool("Block",true);
 
-        Debug.Log("Action Changed");
+        //Debug.Log("Action Changed");
         UpdateActions();    // Updates the movement actions.
     }
 
     void UpdateActions()
     {
         moveVec = new Vector3();
-
         Vector3 f = new Vector3();
         if (forward != null)
         {
@@ -207,12 +212,14 @@ public class ActorBehavior : MonoBehaviour
 
     void UpdateMovement()
     {
-        Vector3 motion = moveVec;  //get movement input from controls
+        // Get movement from Input puts it in Local space
+        Vector3 motion = this.transform.localToWorldMatrix.MultiplyVector(moveVec);
 
-        //reduce input for diagonal movement
-        motion *= (Mathf.Abs(moveVec.x) == 1 && Mathf.Abs(moveVec.z) == 1) ? .7f : 1;
-        GetComponent<Rigidbody>().velocity = motion * 10;
-        Debug.Log(motion);
+        // Lock camera to Always look at target
+        transform.LookAt(targetRobot);
+
+        // Aplies Movement
+        GetComponent<Rigidbody>().velocity = motion* moveSpeed;
     }
 
     public void Hit()
@@ -220,5 +227,10 @@ public class ActorBehavior : MonoBehaviour
         //Debug.Log("hit" + key);
         rbtSyncBhvr.ActionTerminated += rb_ActionTerminated;
         rbtSyncBhvr.TerminateAction(readKey);
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, targetRobot.position);
     }
 }

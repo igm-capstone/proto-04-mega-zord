@@ -1712,6 +1712,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 9507460}
+  targetRobot: {fileID: 0}
+  moveSpeed: 10
+  maxRadius: 100
+  minRadius: 1
 --- !u!114 &11418674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1723,6 +1727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d24d911e6a292489d3fdf5e743a72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offsetVec: {x: .5, y: .5, z: .5}
 --- !u!114 &11435602
 MonoBehaviour:
   m_ObjectHideFlags: 1
