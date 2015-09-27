@@ -59,17 +59,8 @@ public class InputPanelHUD : MonoBehaviour {
             //RectTransform t = (RectTransform) transform;
             //t.sizeDelta = new Vector2(t.rect.width - 120, t.rect.height);
         }
-
-        StartCoroutine(Test());
 	}
 
-    IEnumerator Test()
-    {
-        for (float i = 1; i > 0; i-=0.01f) {
-            SetHealth(i);
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
 	// Update is called once per frame
 	void Update () {
 	
