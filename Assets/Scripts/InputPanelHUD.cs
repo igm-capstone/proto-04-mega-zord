@@ -14,6 +14,7 @@ public class InputPanelHUD : MonoBehaviour {
     private Animator[] animator;
     private Sprite[] sprites;
     private Image[] imageBtn;
+    private Image[] imageMov;
     private Image atkImage;
     private Slider health;
     private Image healthFill;
@@ -36,14 +37,16 @@ public class InputPanelHUD : MonoBehaviour {
         healthFill = health.transform.FindChild("Fill Area").GetComponentInChildren<Image>();
 
         imageBtn = new Image[numberOfPlayers];
+        imageMov = new Image[numberOfPlayers];
         currentPress = new int[numberOfPlayers];
         animator = new Animator[numberOfPlayers];
 
         for (int i = 0; i < numberOfPlayers; i++)
         {
             GameObject playerPanel = transform.GetChild(i).gameObject;
-            playerPanel.transform.GetChild(0).gameObject.GetComponentInChildren<Image>().sprite = sprites[11 + robot.PlayerID2JoystickID(i+1)];
-            imageBtn[i] = playerPanel.transform.GetChild(1).gameObject.GetComponentInChildren<Image>();
+            playerPanel.transform.FindChild("PxImg").GetComponent<Image>().sprite = sprites[11 + robot.PlayerID2JoystickID(i+1)];
+            imageBtn[i] = playerPanel.transform.FindChild("BtnImg").GetComponent<Image>();
+            imageMov[i] = playerPanel.transform.FindChild("MovImg").GetComponent<Image>();
             animator[i] = playerPanel.GetComponent<Animator>();
             currentPress[i] = -1;
         }
@@ -74,19 +77,37 @@ public class InputPanelHUD : MonoBehaviour {
 
     public void SetPressed(string key, int playerID, bool state)
     {
-        //Not nice, but eh
-        if (state == true)
+        bool isMove = false;
+        if (key == "Forward" || key == "Backward" || key == "Left" || key == "Right") isMove = true;
+
+        if (!isMove)
         {
-            imageBtn[playerID - 1].sprite = sprites[KeyStringToSpriteNumber(key)];
-            imageBtn[playerID - 1].color = new Color(1, 1, 1, 1);
-            currentPress[playerID - 1] = KeyStringToSpriteNumber(key);
+            //Not nice, but eh
+            if (state == true)
+            {
+                imageBtn[playerID - 1].sprite = sprites[KeyStringToSpriteNumber(key)];
+                imageBtn[playerID - 1].color = new Color(1, 1, 1, 1);
+                currentPress[playerID - 1] = KeyStringToSpriteNumber(key);
+            }
+            else
+            {
+                imageBtn[playerID - 1].color = new Color(0, 0, 0, 0);
+                currentPress[playerID - 1] = -1;
+            }
+            CheckGlow();
         }
         else
         {
-            imageBtn[playerID-1].color = new Color(0,0,0,0);
-            currentPress[playerID - 1] = -1;
+            if (state == true)
+            {
+                imageMov[playerID - 1].sprite = sprites[KeyStringToSpriteNumber(key)];
+                imageMov[playerID - 1].color = new Color(1, 1, 1, 1);
+            }
+            else
+            {
+                imageMov[playerID - 1].color = new Color(0, 0, 0, 0);
+            }
         }
-        CheckGlow();
     }
 
     private void CheckGlow()
