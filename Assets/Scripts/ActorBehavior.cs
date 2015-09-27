@@ -34,6 +34,8 @@ public class ActorBehavior : MonoBehaviour
     bool isMoving;
     bool isStunned;
 
+    private bool leftKickAnim = false, rightKickAnim = false, leftPunchAnim = false, rightPunchAnim = false, blockAnim = false;
+
     #endregion
 
     void Start()
@@ -160,7 +162,7 @@ public class ActorBehavior : MonoBehaviour
     {
         if (rightPunch != null)
         {
-            if (rightPunch.IsSynchronized())
+            if (rightPunch.IsSynchronized() && rightPunchAnim == false)
             {
                 animator.SetBool("MirrorPunch", false);
                 animator.SetTrigger("PunchTrigger");
@@ -175,7 +177,7 @@ public class ActorBehavior : MonoBehaviour
         }
         else if (leftPunch != null)
         {
-            if (leftPunch.IsSynchronized())
+            if (leftPunch.IsSynchronized() && leftPunchAnim == false)
             {
                 animator.SetBool("MirrorPunch", true);
                 animator.SetTrigger("PunchTrigger");
@@ -188,7 +190,7 @@ public class ActorBehavior : MonoBehaviour
         }
         else if (leftKick != null)
         {
-            if (leftKick.IsSynchronized())
+            if (leftKick.IsSynchronized() && leftKickAnim == false)
             {
                 animator.SetBool("MirrorKick", false);
                 animator.SetTrigger("KickTrigger");
@@ -201,7 +203,7 @@ public class ActorBehavior : MonoBehaviour
         }
         else if (rightKick != null)
         {
-            if (rightKick.IsSynchronized())
+            if (rightKick.IsSynchronized() && rightKickAnim == false)
             {
                 animator.SetBool("MirrorKick", true);
                 animator.SetTrigger("KickTrigger");
@@ -214,7 +216,7 @@ public class ActorBehavior : MonoBehaviour
         }
         else if (block != null)
         {
-            if (block.IsSynchronized())
+            if (block.IsSynchronized() && blockAnim == false)
             {
                 animator.SetBool("Block", true);
                 rbtSyncBhvr.TerminateAction("Block");
@@ -314,8 +316,49 @@ public class ActorBehavior : MonoBehaviour
             
     }
 
+    //function from the animation
     public void Hit()
     {        
         // Nothing for now.
+    }
+
+    public void endAnimation(float value)
+    {
+        if (value == 1)   //Punch
+        {
+            if(animator.GetBool("MirrorPunch") == true)
+                leftPunchAnim = false;
+            if(animator.GetBool("MirrorPunch") == false)
+                rightPunchAnim = false;
+        }
+        if(value == 2)   //Kick
+        {
+            if(animator.GetBool("MirrorKick") == true)
+                rightKickAnim = false;
+            if (animator.GetBool("MirrorKick") == false)
+                leftKickAnim = false;
+        }
+        if (value == 3)   //Block
+            blockAnim = false;
+    }
+
+    public void StartAnimation(float value)
+    {
+        if (value == 1)   //Punch
+        {
+            if (animator.GetBool("MirrorPunch") == true)
+                leftPunchAnim = true;
+            if (animator.GetBool("MirrorPunch") == false)
+                rightPunchAnim = true;
+        }
+        if (value == 2)   //Kick
+        {
+            if (animator.GetBool("MirrorKick") == true)
+                rightKickAnim = true;
+            if (animator.GetBool("MirrorKick") == false)
+                leftKickAnim = true;
+        }
+        if (value == 3)   //Block
+            blockAnim = true;
     }
 }
