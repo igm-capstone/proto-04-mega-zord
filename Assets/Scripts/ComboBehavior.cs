@@ -2,9 +2,9 @@
 using System.Collections;
 
 // Script responsible for the Combo System
-public class ComboBehavior : MonoBehaviour {
+public class ComboBehavior : MonoBehaviour
+{
 
-	
     // Get a Hit
     // If I hit: start combo timer
     // While on combo timer:
@@ -21,12 +21,17 @@ public class ComboBehavior : MonoBehaviour {
     // Use this for initialization
 	void Start ()
     {
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        // Get HitBehavior Script
+        // Get Input Script
+        // Get Input Script
+
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
-	
+        // If I'm hit, ignore input
+        
+        // If I hit, start Combo!
 	}
 }

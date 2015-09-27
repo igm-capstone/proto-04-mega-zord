@@ -31,8 +31,8 @@ public class ActorBehavior : MonoBehaviour
     GameObject rightFoot;
 
     // Animation Variables
-    bool isMoving;
     bool isStunned;
+    float AnimSpeed;
 
     private bool leftKickAnim = false, rightKickAnim = false, leftPunchAnim = false, rightPunchAnim = false, blockAnim = false;
 
@@ -62,6 +62,9 @@ public class ActorBehavior : MonoBehaviour
                 break;
             }
         }
+
+        // set Running to always true because we don't use it.
+        //animator.SetBool("Running", true);
     }
 
     void Awake()
@@ -70,24 +73,8 @@ public class ActorBehavior : MonoBehaviour
     }
 
     void Update()
-    {         
-        if (moveVec.magnitude != 0)  //if there is some input
-        {
-            //set that character is moving
-            animator.SetBool("Moving", true);
-            isMoving = true;
-            animator.SetBool("Running", true);
-        }
-        else
-        {
-            //character is not moving
-            animator.SetBool("Moving", false);
-            animator.SetBool("Running", false);
-            isMoving = false;
-        }
-
+    {
         UpdateMovement();  //update character Velocity 
-
     }
 
     private void rb_ActionTerminated(string obj)
@@ -162,10 +149,21 @@ public class ActorBehavior : MonoBehaviour
     {
         if (rightPunch != null)
         {
+            float count = 0;
+            foreach (PlayerSyncInfo psi in rightPunch.PlayerSyncInfos)
+            {
+                if (psi.IsPressing()) { count++; }
+            }
+
+            float moveSpeed = ((Mathf.Exp(5 / rbtSyncBhvr.NumberOfPlayers * count) - 1) / 20);
+            moveSpeed /= ((Mathf.Exp(5) - 1) / 40);
+            animator.SetFloat("PunchAnimSpeed", moveSpeed);
+            Debug.Log(moveSpeed);
+            animator.SetBool("MirrorPunch", false);
+            animator.SetTrigger("PunchTrigger");
+
             if (rightPunch.IsSynchronized() && rightPunchAnim == false)
             {
-                animator.SetBool("MirrorPunch", false);
-                animator.SetTrigger("PunchTrigger");
                 rightHand.GetComponent<HitBehavior>().Key = "RightPunch";
                 rightHand.GetComponent<HitBehavior>().SyncScore = rightPunch.SyncScore;
                 // Add num players active.
@@ -234,6 +232,7 @@ public class ActorBehavior : MonoBehaviour
         moveVec = new Vector3();
         Vector3 f = new Vector3();
 
+        // Movement Rate adjustment Variables
         float adjstConst = 5;
         float speedScale = 2;
 
@@ -246,9 +245,14 @@ public class ActorBehavior : MonoBehaviour
                 if (psi.IsPressing()) { count++; }
             }
 
+            // Calculate movement speed
             moveSpeed = ((Mathf.Exp(adjstConst / rbtSyncBhvr.NumberOfPlayers* count) - 1) / 10);
             moveSpeed /= speedScale;
             f = Vector3.forward * moveSpeed;
+
+            // Calculate animaiton speed
+            moveSpeed /=((Mathf.Exp(adjstConst) - 1) / 20); // Normalization
+            animator.SetFloat("AnimSpeed", moveSpeed);
         }
 
         Vector3 b = new Vector3();
@@ -260,9 +264,16 @@ public class ActorBehavior : MonoBehaviour
             {
                 if (psi.IsPressing()) { count++; }
             }
+
+            // Calculate movement speed
             moveSpeed = -((Mathf.Exp(adjstConst / rbtSyncBhvr.NumberOfPlayers * count) - 1) / 10);
             moveSpeed /= speedScale;
             b = Vector3.forward * moveSpeed;
+
+            // Calculate animaiton speed
+            moveSpeed = Mathf.Abs(moveSpeed);
+            moveSpeed /= ((Mathf.Exp(adjstConst) - 1) / 20); // Normalization
+            animator.SetFloat("AnimSpeed", moveSpeed);
         }
 
         Vector3 r = new Vector3();
@@ -274,9 +285,15 @@ public class ActorBehavior : MonoBehaviour
             {
                 if (psi.IsPressing()) { count++; }
             }
+            
+            // Calculate movement speed
             moveSpeed = ((Mathf.Exp(adjstConst / rbtSyncBhvr.NumberOfPlayers * count) - 1) / 10);
             moveSpeed /= speedScale;
             r = Vector3.right * moveSpeed;
+
+            // Calculate animaiton speed
+            moveSpeed /= ((Mathf.Exp(adjstConst) - 1) / 20); // Normalization
+            animator.SetFloat("AnimSpeed", moveSpeed);
         }
 
         Vector3 l = new Vector3();
@@ -288,12 +305,33 @@ public class ActorBehavior : MonoBehaviour
             {
                 if (psi.IsPressing()) { count++; }
             }
+            
+            // Calculate movement speed
             moveSpeed = -((Mathf.Exp(adjstConst / rbtSyncBhvr.NumberOfPlayers * count) - 1) / 10);
             moveSpeed /= speedScale;
             l = Vector3.right * moveSpeed;
+
+            // Calculate animaiton speed
+            moveSpeed = Mathf.Abs(moveSpeed);
+            moveSpeed /= ((Mathf.Exp(adjstConst) - 1) / 20); // Normalization
+            animator.SetFloat("AnimSpeed", moveSpeed);
         }
 
         moveVec += (f + b + l + r);
+
+        if (moveVec.magnitude != 0)
+        {
+            //set that character is moving
+            animator.SetBool("Moving", true);
+            animator.SetBool("Running", true);
+        }
+        else
+        {
+            //set that character is moving
+            animator.SetBool("Moving", false);
+            animator.SetBool("Running", false);
+            //animator.Play("Idle");
+        }
     }
 
     void UpdateMovement()
