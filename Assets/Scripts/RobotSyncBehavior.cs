@@ -69,7 +69,6 @@ public class PlayerSyncInfo
     {
         return (float.IsNaN(Release) && !float.IsNaN(Delay));
     }
-
 }
 
 public class RobotSyncBehavior : MonoBehaviour
@@ -164,8 +163,7 @@ public class RobotSyncBehavior : MonoBehaviour
         {
             score += psi.Total;
         }
-
-        score /= NumberOfPlayers;
+        action.SyncScore = score / NumberOfPlayers;
 
         if (isNew && ActionStarted != null)
         {

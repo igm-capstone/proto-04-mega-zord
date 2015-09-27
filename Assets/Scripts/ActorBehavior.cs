@@ -319,6 +319,7 @@ public class ActorBehavior : MonoBehaviour
         if (other.gameObject.GetComponent<HitBehavior>() && other.gameObject.GetComponent<HitBehavior>().hitStats != null)
         {
             hs = other.gameObject.GetComponent<HitBehavior>().hitStats;
+           
             health.TakeDamage(hs.SyncScore);
             other.gameObject.GetComponent<HitBehavior>().hitStats = null;
         }
