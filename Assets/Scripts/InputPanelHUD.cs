@@ -21,7 +21,15 @@ public class InputPanelHUD : MonoBehaviour {
 
     private int[] currentPress;
 
-    // Use this for initialization
+    void Awake()
+    {
+        panelAnimator = GetComponent<Animator>();
+        sprites = Resources.LoadAll<Sprite>("Sprites/circles");
+        atkImage = transform.FindChild("AtkImage").GetComponent<Image>();
+        health = transform.parent.GetComponentInChildren<Slider>();
+        healthFill = health.transform.FindChild("Fill Area").GetComponentInChildren<Image>();
+    }
+    
 	void Start () {
         robot = transform.parent.parent.GetComponent<RobotSyncBehavior>();
         if (robot)
@@ -29,13 +37,7 @@ public class InputPanelHUD : MonoBehaviour {
             numberOfPlayers = robot.NumberOfPlayers;
             robotID = robot.RobotID;
         }
-
-        panelAnimator = GetComponent<Animator>();
-        sprites = Resources.LoadAll<Sprite>("Sprites/circles");
-        atkImage = transform.FindChild("AtkImage").GetComponent<Image>();
-        health = transform.parent.GetComponentInChildren<Slider>();
-        healthFill = health.transform.FindChild("Fill Area").GetComponentInChildren<Image>();
-
+        
         imageBtn = new Image[numberOfPlayers];
         imageMov = new Image[numberOfPlayers];
         currentPress = new int[numberOfPlayers];
