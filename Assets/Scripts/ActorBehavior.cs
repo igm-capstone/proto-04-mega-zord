@@ -5,6 +5,7 @@ public class ActorBehavior : MonoBehaviour
 {
     #region Class Variables
     RobotSyncBehavior rbtSyncBhvr;
+    Health health;
     public Animator animator;
 
     // Movement Variables
@@ -43,6 +44,7 @@ public class ActorBehavior : MonoBehaviour
         // Get components
         rbtSyncBhvr = transform.parent.GetComponent<RobotSyncBehavior>();
         //animator = GetComponent<Animator>();
+        health = transform.parent.GetComponent<Health>();
 
         // Robot Sync Initialization
         rbtSyncBhvr.ActionStarted += rb_ActionStarted;
@@ -313,11 +315,16 @@ public class ActorBehavior : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Received Hit From ");
+
         HitStats hs = null;
-        if (other.gameObject.GetComponent<HitBehavior>().hitStats != null)
+        if (other.gameObject.GetComponent<HitBehavior>() && other.gameObject.GetComponent<HitBehavior>().hitStats != null)
         {
+
             hs = other.gameObject.GetComponent<HitBehavior>().hitStats;
-            Debug.Log("Received hitn from " + hs.Key);
+            Debug.Log("Received Hit From " + hs.Key);
+
+            health.TakeDamage(hs.SyncScore);
             other.gameObject.GetComponent<HitBehavior>().hitStats = null;
 
         }
