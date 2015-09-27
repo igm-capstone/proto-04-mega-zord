@@ -315,22 +315,13 @@ public class ActorBehavior : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Received Hit From ");
-
         HitStats hs = null;
         if (other.gameObject.GetComponent<HitBehavior>() && other.gameObject.GetComponent<HitBehavior>().hitStats != null)
         {
-
             hs = other.gameObject.GetComponent<HitBehavior>().hitStats;
-            Debug.Log("Received Hit From " + hs.Key);
-
             health.TakeDamage(hs.SyncScore);
             other.gameObject.GetComponent<HitBehavior>().hitStats = null;
-
         }
-
-        // Extract data.. apply damage
-
     }
 
     //function from the animation
