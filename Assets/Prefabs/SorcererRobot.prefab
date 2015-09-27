@@ -1796,6 +1796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RobotID: 1
   NumberOfPlayers: 1
+  robotHUDPrefab: {fileID: 173294, guid: a7cf2852976f511458285a503ec45837, type: 2}
 --- !u!114 &11455702
 MonoBehaviour:
   m_ObjectHideFlags: 1
