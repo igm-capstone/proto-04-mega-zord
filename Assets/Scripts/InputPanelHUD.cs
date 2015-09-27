@@ -19,6 +19,7 @@ public class InputPanelHUD : MonoBehaviour {
     private Image atkImage;
     private Slider health;
     private Image healthFill;
+    private Transform endGame;
 
     private string[] currentPress;
 
@@ -29,6 +30,9 @@ public class InputPanelHUD : MonoBehaviour {
         atkImage = transform.FindChild("AtkImage").GetComponent<Image>();
         health = transform.parent.GetComponentInChildren<Slider>();
         healthFill = health.transform.FindChild("Fill Area").GetComponentInChildren<Image>();
+        endGame = transform.parent.FindChild("EndGame");
+        for (int i = 0; i < endGame.childCount; i++)
+            endGame.GetChild(i).gameObject.SetActive(false);
     }
     
 	void Start () {
@@ -64,7 +68,16 @@ public class InputPanelHUD : MonoBehaviour {
             //RectTransform t = (RectTransform) transform;
             //t.sizeDelta = new Vector2(t.rect.width - 120, t.rect.height);
         }
-	}
+    }
+
+    IEnumerator Test()
+    {
+        for (float i = 1; i >= -2; i -= 0.1f)
+        {
+            SetHealth(i);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -187,6 +200,41 @@ public class InputPanelHUD : MonoBehaviour {
         {
             healthFill.color = new Color(143.0f / 255.0f, 0, 0, 1);
         }
+
+        if (health.value <= 0.01f)
+        {
+            SetLoser();
+            foreach (InputPanelHUD h in GameObject.FindObjectsOfType<InputPanelHUD>())
+            {
+                if (h != this)
+                {
+                    h.SetWinner(); break;
+                }
+            }
+            foreach (InputManager h in GameObject.FindObjectsOfType<InputManager>())
+            {
+                Destroy(h);
+            }
+        }
+    }
+
+    public void SetLoser()
+    {
+        endGame.FindChild("LosePanel").gameObject.SetActive(true);
+        endGame.FindChild("Restart").gameObject.SetActive(true);
+        endGame.FindChild("Restart").gameObject.GetComponent<Button>().onClick.AddListener(Restart);
+    }
+
+    public void SetWinner()
+    {
+        endGame.FindChild("WinPanel").gameObject.SetActive(true);
+        endGame.FindChild("Restart").gameObject.SetActive(true);
+        endGame.FindChild("Restart").gameObject.GetComponent<Button>().onClick.AddListener(Restart);
+    }
+
+    void Restart()
+    {
+        Application.LoadLevel(Application.loadedLevelName);
     }
 
 }
