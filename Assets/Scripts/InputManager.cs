@@ -36,12 +36,10 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            isIgnoringInput = true;
+            isIgnoringInput = !isIgnoringInput;
+            Debug.Log("Spppaaaaaaaaaaaccccceeee");
         }
-        else
-        {
-            isIgnoringInput = false;
-        }
+
         // Read input if it is not being ignored
         if (!isIgnoringInput)
         {
