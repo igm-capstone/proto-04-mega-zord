@@ -77,11 +77,14 @@ public class RobotSyncBehavior : MonoBehaviour
     public event System.Action<Action> ActionStarted;
     public event System.Action<Action> ActionChanged;
     public event System.Action<string> ActionTerminated;
-
+    
     [Range(1, 2)]
     public int RobotID = 1;
     [Range(1, 4)]
     public int NumberOfPlayers = 4;
+
+    public GameObject robotHUDPrefab;
+
 
     Dictionary<string, Action> actionDictionary;
 
@@ -92,6 +95,11 @@ public class RobotSyncBehavior : MonoBehaviour
     {
         Camera c = gameObject.GetComponentInChildren<Camera>();
         c.rect = new Rect((RobotID == 1) ? 0 : 0.5f, 0, 0.5f, 1);
+
+        GameObject canvas = GameObject.Instantiate(robotHUDPrefab);
+        canvas.transform.SetParent(transform);
+        canvas.GetComponent<Canvas>().worldCamera = c;
+
 
         actionDictionary = new Dictionary<string, Action>();
         hud = GetComponentInChildren<InputPanelHUD>();
