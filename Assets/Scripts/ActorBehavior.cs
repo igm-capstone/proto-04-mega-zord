@@ -5,6 +5,7 @@ public class ActorBehavior : MonoBehaviour
 {
     #region Class Variables
     RobotSyncBehavior rbtSyncBhvr;
+    Health health;
     public Animator animator;
 
     // Movement Variables
@@ -43,6 +44,7 @@ public class ActorBehavior : MonoBehaviour
         // Get components
         rbtSyncBhvr = transform.parent.GetComponent<RobotSyncBehavior>();
         //animator = GetComponent<Animator>();
+        health = transform.parent.GetComponent<Health>();
 
         // Robot Sync Initialization
         rbtSyncBhvr.ActionStarted += rb_ActionStarted;
@@ -164,9 +166,14 @@ public class ActorBehavior : MonoBehaviour
 
             if (rightPunch.IsSynchronized() && rightPunchAnim == false)
             {
+
                 rightHand.GetComponent<HitBehavior>().Key = "RightPunch";
                 rightHand.GetComponent<HitBehavior>().SyncScore = rightPunch.SyncScore;
                 // Add num players active.
+
+                rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rightPunch.SyncScore, 4);
+
+
                 rbtSyncBhvr.TerminateAction("RightPunch");
             }
             else if (!rightPunch.IsActive()) {
@@ -177,6 +184,7 @@ public class ActorBehavior : MonoBehaviour
         {
             if (leftPunch.IsSynchronized() && leftPunchAnim == false)
             {
+                leftHand.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", leftPunch.SyncScore, 4);
                 animator.SetBool("MirrorPunch", true);
                 animator.SetTrigger("PunchTrigger");
                 rbtSyncBhvr.TerminateAction("LeftPunch");
@@ -190,6 +198,7 @@ public class ActorBehavior : MonoBehaviour
         {
             if (leftKick.IsSynchronized() && leftKickAnim == false)
             {
+                leftFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftKick", leftKick.SyncScore, 4);
                 animator.SetBool("MirrorKick", false);
                 animator.SetTrigger("KickTrigger");
                 rbtSyncBhvr.TerminateAction("LeftKick");
@@ -203,6 +212,7 @@ public class ActorBehavior : MonoBehaviour
         {
             if (rightKick.IsSynchronized() && rightKickAnim == false)
             {
+                rightFoot.GetComponent<HitBehavior>().hitStats = new HitStats("RightKick", rightKick.SyncScore, 4);
                 animator.SetBool("MirrorKick", true);
                 animator.SetTrigger("KickTrigger");
                 rbtSyncBhvr.TerminateAction("RightKick");
@@ -216,6 +226,8 @@ public class ActorBehavior : MonoBehaviour
         {
             if (block.IsSynchronized() && blockAnim == false)
             {
+                // Not sure what to do here yet.
+               // rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rightPunch.SyncScore, 4);
                 animator.SetBool("Block", true);
                 rbtSyncBhvr.TerminateAction("Block");
             }
@@ -348,10 +360,13 @@ public class ActorBehavior : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Received hit");
-        float collisionSync = other.gameObject.GetComponent<HitBehavior>().SyncScore;
-        // Extract data.. apply damage
-            
+        HitStats hs = null;
+        if (other.gameObject.GetComponent<HitBehavior>() && other.gameObject.GetComponent<HitBehavior>().hitStats != null)
+        {
+            hs = other.gameObject.GetComponent<HitBehavior>().hitStats;
+            health.TakeDamage(hs.SyncScore);
+            other.gameObject.GetComponent<HitBehavior>().hitStats = null;
+        }
     }
 
     //function from the animation
