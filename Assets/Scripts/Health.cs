@@ -20,13 +20,13 @@ public class Health : MonoBehaviour {
     }
 
 	// Update is called once per frame
-    void TakeDamage(float value)
+    public void TakeDamage(float value)
     {
         currentHealth -= value;
         hud.SetHealth(currentHealth / (float)MaxHealth);
     }
 
-    void Heal(float value)
+    public void Heal(float value)
     {
         currentHealth += value;
         hud.SetHealth(currentHealth / (float)MaxHealth);
