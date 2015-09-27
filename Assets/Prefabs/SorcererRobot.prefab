@@ -292,6 +292,7 @@ GameObject:
   - 54: {fileID: 5457958}
   - 114: {fileID: 11435602}
   - 114: {fileID: 11418674}
+  - 114: {fileID: 11491166}
   m_Layer: 0
   m_Name: SorcererRobot
   m_TagString: Untagged
@@ -703,6 +704,7 @@ GameObject:
   - 4: {fileID: 428302}
   - 136: {fileID: 13662406}
   - 54: {fileID: 5498786}
+  - 114: {fileID: 11478512}
   m_Layer: 0
   m_Name: B_L_Foot
   m_TagString: Untagged
@@ -810,6 +812,7 @@ GameObject:
   - 4: {fileID: 455364}
   - 136: {fileID: 13600322}
   - 54: {fileID: 5441410}
+  - 114: {fileID: 11417122}
   m_Layer: 0
   m_Name: B_R_Foot
   m_TagString: Untagged
@@ -1757,6 +1760,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11417122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 189780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93617c117d9376469e4a1ce3f6828f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11418674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1780,9 +1794,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93617c117d9376469e4a1ce3f6828f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Key: 
-  SyncScore: 0
-  NumActive: 0
 --- !u!114 &11435602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1809,6 +1820,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 9507460}
+--- !u!114 &11478512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93617c117d9376469e4a1ce3f6828f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11491166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9573dcf6800069429855505a7ec2eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 100
 --- !u!114 &11493058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1820,9 +1854,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93617c117d9376469e4a1ce3f6828f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Key: 
-  SyncScore: 0
-  NumActive: 0
 --- !u!124 &12479258
 Behaviour:
   m_ObjectHideFlags: 1
