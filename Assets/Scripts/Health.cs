@@ -16,7 +16,6 @@ public class Health : MonoBehaviour {
     void Start()
     {
         hud = GetComponentInChildren<InputPanelHUD>();
-        hud.SetHealth(1);
     }
 
 	// Update is called once per frame
