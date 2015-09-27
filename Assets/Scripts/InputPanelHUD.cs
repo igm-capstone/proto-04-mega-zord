@@ -15,16 +15,17 @@ public class InputPanelHUD : MonoBehaviour {
     private Sprite[] sprites;
     private Image[] imageBtn;
     private Image[] imageMov;
+    private Image[] imageBlk;
     private Image atkImage;
     private Slider health;
     private Image healthFill;
 
-    private int[] currentPress;
+    private string[] currentPress;
 
     void Awake()
     {
-        panelAnimator = GetComponent<Animator>();
         sprites = Resources.LoadAll<Sprite>("Sprites/circles");
+        panelAnimator = GetComponent<Animator>();
         atkImage = transform.FindChild("AtkImage").GetComponent<Image>();
         health = transform.parent.GetComponentInChildren<Slider>();
         healthFill = health.transform.FindChild("Fill Area").GetComponentInChildren<Image>();
@@ -40,7 +41,8 @@ public class InputPanelHUD : MonoBehaviour {
         
         imageBtn = new Image[numberOfPlayers];
         imageMov = new Image[numberOfPlayers];
-        currentPress = new int[numberOfPlayers];
+        imageBlk = new Image[numberOfPlayers];
+        currentPress = new string[numberOfPlayers];
         animator = new Animator[numberOfPlayers];
 
         for (int i = 0; i < numberOfPlayers; i++)
@@ -49,8 +51,9 @@ public class InputPanelHUD : MonoBehaviour {
             playerPanel.transform.FindChild("PxImg").GetComponent<Image>().sprite = sprites[11 + robot.PlayerID2JoystickID(i+1)];
             imageBtn[i] = playerPanel.transform.FindChild("BtnImg").GetComponent<Image>();
             imageMov[i] = playerPanel.transform.FindChild("MovImg").GetComponent<Image>();
+            imageBlk[i] = playerPanel.transform.FindChild("BlkImg").GetComponent<Image>();
             animator[i] = playerPanel.GetComponent<Animator>();
-            currentPress[i] = -1;
+            currentPress[i] = "";
         }
         
         //just in case
@@ -80,12 +83,13 @@ public class InputPanelHUD : MonoBehaviour {
             {
                 imageBtn[playerID - 1].sprite = sprites[KeyStringToSpriteNumber(key)];
                 imageBtn[playerID - 1].color = new Color(1, 1, 1, 1);
-                currentPress[playerID - 1] = KeyStringToSpriteNumber(key);
+                currentPress[playerID - 1] = key;
             }
             else
             {
                 imageBtn[playerID - 1].color = new Color(0, 0, 0, 0);
-                currentPress[playerID - 1] = -1;
+                imageBlk[playerID - 1].color = new Color(0, 0, 0, 0);
+                currentPress[playerID - 1] = "";
             }
             CheckGlow();
         }
@@ -105,10 +109,10 @@ public class InputPanelHUD : MonoBehaviour {
 
     private void CheckGlow()
     {
-        int[] concurrentPresses = currentPress.GroupBy(s => s).Where(g => g.Count() > 1 && g.Key != -1).Select(g => g.Key).ToArray();
+        string[] concurrentPresses = currentPress.GroupBy(s => s).Where(g => g.Count() > 1 && g.Key != "").Select(g => g.Key).ToArray();
 
         bool attackReady = true;
-        int baseAttack = currentPress[0];
+        string syncedAttack = currentPress[0];
         for (int i = 0; i < numberOfPlayers; i++)
         {
             int pos = Array.IndexOf(concurrentPresses, currentPress[i]);
@@ -116,19 +120,26 @@ public class InputPanelHUD : MonoBehaviour {
                 animator[i].SetBool("Glow", true);
             else
                 animator[i].SetBool("Glow", false);
-            if (currentPress[i] != baseAttack) attackReady = false;
+            if (currentPress[i] != syncedAttack) attackReady = false;
         }
 
-        if (attackReady && baseAttack!=-1)
+        if (attackReady && syncedAttack!="")
         {
             //set atkImage
-            StartCoroutine(FlashAttack());
+            for (int i = 0; i < numberOfPlayers; i++)
+            {
+                imageBlk[i].color = new Color(1, 1, 1, 1);
+                currentPress[i] = "";
+            }
+
+            StartCoroutine(FlashAttack(syncedAttack));
         }
         
     }
-    IEnumerator FlashAttack()
+    IEnumerator FlashAttack(string syncedAttack)
     {
         atkImage.color = Color.white;
+        atkImage.sprite = Resources.Load<Sprite>("Sprites/action-"+syncedAttack);
         panelAnimator.SetBool("Glow", true);
         yield return new WaitForSeconds(1.5f);
         panelAnimator.SetBool("Glow", false);
