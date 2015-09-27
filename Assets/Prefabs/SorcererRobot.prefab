@@ -1482,7 +1482,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143182}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 450120}
@@ -1648,7 +1648,6 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -1805,7 +1804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d314dab7d08e6147925e906b7c2e615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RobotID: 1
+  RobotID: 2
   NumberOfPlayers: 1
   robotHUDPrefab: {fileID: 173294, guid: a7cf2852976f511458285a503ec45837, type: 2}
 --- !u!114 &11455702
