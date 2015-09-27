@@ -47545,10 +47545,24 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
+  - time: 0
+    functionName: StartAnimation
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 2
+    intParameter: 0
+    messageOptions: 0
   - time: .5
     functionName: Hit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.06666672
+    functionName: endAnimation
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 2
     intParameter: 0
     messageOptions: 0
