@@ -37,7 +37,8 @@ public class ActorBehavior : MonoBehaviour
     float AnimSpeed;
 
     private bool leftKickAnim = false, rightKickAnim = false, leftPunchAnim = false, rightPunchAnim = false, blockAnim = false;
-
+    private float maxDamage;
+    public float DamageScale = 5; // Divides the max health to determine max damage
     #endregion
 
     void Start()
@@ -46,6 +47,7 @@ public class ActorBehavior : MonoBehaviour
         rbtSyncBhvr = transform.parent.GetComponent<RobotSyncBehavior>();
         //animator = GetComponent<Animator>();
         health = transform.parent.GetComponent<Health>();
+        maxDamage = health.MaxHealth / DamageScale;
 
         // Robot Sync Initialization
         rbtSyncBhvr.ActionStarted += rb_ActionStarted;
@@ -181,8 +183,8 @@ public class ActorBehavior : MonoBehaviour
 
             if (rightPunch.IsSynchronized() && rightPunchAnim == false)
             {
-
-                rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rightPunch.SyncScore, rbtSyncBhvr.NumberOfPlayers);
+                float invTime = Mathf.Exp(-1.622f * (Time.time - rightPunch.Time + Mathf.Epsilon));
+                rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
                 animator.SetBool("MirrorPunch", false);
                 animator.SetTrigger("PunchTrigger");
                 rbtSyncBhvr.TerminateAction("RightPunch");
@@ -196,7 +198,8 @@ public class ActorBehavior : MonoBehaviour
         {
             if (leftPunch.IsSynchronized() && leftPunchAnim == false)
             {
-                leftHand.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", leftPunch.SyncScore, rbtSyncBhvr.NumberOfPlayers);
+                float invTime = Mathf.Exp(-1.622f * (Time.time - rightPunch.Time + Mathf.Epsilon));
+                leftHand.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
                 animator.SetBool("MirrorPunch", true);
                 animator.SetTrigger("PunchTrigger");
                 rbtSyncBhvr.TerminateAction("LeftPunch");
@@ -210,7 +213,8 @@ public class ActorBehavior : MonoBehaviour
         {
             if (leftKick.IsSynchronized() && leftKickAnim == false)
             {
-                leftFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftKick", leftKick.SyncScore, rbtSyncBhvr.NumberOfPlayers);
+                float invTime = Mathf.Exp(-1.622f * (Time.time - rightPunch.Time + Mathf.Epsilon));
+                leftFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftKick", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
                 animator.SetBool("MirrorKick", false);
                 animator.SetTrigger("KickTrigger");
                 rbtSyncBhvr.TerminateAction("LeftKick");
@@ -224,7 +228,8 @@ public class ActorBehavior : MonoBehaviour
         {
             if (rightKick.IsSynchronized() && rightKickAnim == false)
             {
-                rightFoot.GetComponent<HitBehavior>().hitStats = new HitStats("RightKick", rightKick.SyncScore, rbtSyncBhvr.NumberOfPlayers);
+                float invTime = Mathf.Exp(-1.622f * (Time.time - rightPunch.Time + Mathf.Epsilon));
+                rightFoot.GetComponent<HitBehavior>().hitStats = new HitStats("RightKick", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
                 animator.SetBool("MirrorKick", true);
                 animator.SetTrigger("KickTrigger");
                 rbtSyncBhvr.TerminateAction("RightKick");
@@ -361,9 +366,11 @@ public class ActorBehavior : MonoBehaviour
         if (other.gameObject.GetComponent<HitBehavior>() && other.gameObject.GetComponent<HitBehavior>().hitStats != null)
         {
             hs = other.gameObject.GetComponent<HitBehavior>().hitStats;
-           
-            health.TakeDamage(hs.SyncScore);
-            other.gameObject.GetComponent<HitBehavior>().hitStats = null;
+            if (hs.RobotID != rbtSyncBhvr.RobotID)
+            {
+                health.TakeDamage(hs.SyncScore);
+                other.gameObject.GetComponent<HitBehavior>().hitStats = null;
+            }
         }
     }
 
