@@ -117,8 +117,9 @@ public class InputPanelHUD : MonoBehaviour {
         atkImage.color = Color.white;
         panelAnimator.SetBool("Glow", true);
         yield return new WaitForSeconds(1.5f);
-        atkImage.color = new Color(0,0,0,0);
         panelAnimator.SetBool("Glow", false);
+        yield return new WaitForSeconds(0.1f);
+        atkImage.color = new Color(0, 0, 0, 0);
     }
 
     private int KeyStringToSpriteNumber(string key)
