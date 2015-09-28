@@ -95,13 +95,14 @@ public class ComboBonus : MonoBehaviour
             {
                 // Second+ Combo Hits
                 cmbCount++;
+                
+                // Increase pitch linearly
+                cmbPitch += 0.2f;
 
                 // Apply current pitch and play second+ hit sound;
                 punchSndPlyr.pitch = cmbPitch;
-                punchSndPlyr.PlayOneShot(punchSndArray[1]);
+                punchSndPlyr.PlayOneShot(punchSndArray[0]);
 
-                // Increase pitch linearly
-                cmbPitch += 0.2f;
                 // Cap Combo sound Pitch
                 if (cmbPitch > 2.4f) cmbPitch = 2.4f;
             }

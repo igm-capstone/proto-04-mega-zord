@@ -15,7 +15,7 @@ public class PunchActions : MonoBehaviour {
 
     public void Hit()
     {
-        transform.parent.GetComponent<ActorBehavior>().Hit();
+        transform.parent.GetComponent<ActorBehavior>().PunchHit();
     }
 
 }

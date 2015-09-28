@@ -397,7 +397,7 @@ public class ActorBehavior : MonoBehaviour
     }
 
     //function from the animation
-    public void Hit()
+    public void PunchHit()
     {        
         // Nothing for now.
     }
