@@ -16,7 +16,7 @@ public class InputManager : MonoBehaviour
     float lastY;
 
     // Ignores Input
-    public bool isIgnoringInput;
+    //public bool isIgnoringInput;
 
     // Component Variables
     RobotSyncBehavior RobotSyncScrpt;
@@ -29,17 +29,17 @@ public class InputManager : MonoBehaviour
         RobotSyncScrpt = GetComponent<RobotSyncBehavior>();
 
         // Starts state is reading input;
-        isIgnoringInput = false;
+        //isIgnoringInput = false;
     }
 
     void Update()
     {
         // Read input if it is not being ignored
-        if (!isIgnoringInput)
-        {
+        //if (!isIgnoringInput)
+        //{
             ReadDpad();
             ReadButtons();
-        }
+        //}
     }
     // Read a single Player ID
     void ReadButtons()

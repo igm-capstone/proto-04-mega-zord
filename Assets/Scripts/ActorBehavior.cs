@@ -41,7 +41,7 @@ public class ActorBehavior : MonoBehaviour
 
     private bool leftKickAnim = false, rightKickAnim = false, leftPunchAnim = false, rightPunchAnim = false, blockAnim = false;
     private float maxDamage;
-    public float DamageScale = 5; // Divides the max health to determine max damage
+    public float DamageScale = 10; // Divides the max health to determine max damage
     #endregion
 
     void Start()
@@ -191,8 +191,9 @@ public class ActorBehavior : MonoBehaviour
 
             if (rightPunch.IsSynchronized() && rightPunchAnim == false)
             {
-                float invTime = Mathf.Exp(-1.622f * (Time.time - rightPunch.Time + Mathf.Epsilon));
-                rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
+                float cmbTime = Time.time - rightPunch.Time;
+                float invTime = Mathf.Exp(-1.622f * (cmbTime + Mathf.Epsilon));
+                rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
                 animator.SetBool("MirrorPunch", false);
                 animator.SetTrigger("PunchTrigger");
                 rbtSyncBhvr.TerminateAction("RightPunch");
@@ -206,8 +207,9 @@ public class ActorBehavior : MonoBehaviour
         {
             if (leftPunch.IsSynchronized() && leftPunchAnim == false)
             {
-                float invTime = Mathf.Exp(-1.622f * (Time.time - leftPunch.Time + Mathf.Epsilon));
-                leftHand.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
+                float cmbTime = Time.time - leftPunch.Time;
+                float invTime = Mathf.Exp(-1.622f * (cmbTime+ Mathf.Epsilon));
+                leftHand.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
                 animator.SetBool("MirrorPunch", true);
                 animator.SetTrigger("PunchTrigger");
                 rbtSyncBhvr.TerminateAction("LeftPunch");
@@ -221,8 +223,9 @@ public class ActorBehavior : MonoBehaviour
         {
             if (leftKick.IsSynchronized() && leftKickAnim == false)
             {
-                float invTime = Mathf.Exp(-1.622f * (Time.time - leftKick.Time + Mathf.Epsilon));
-                leftFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftKick", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
+                float cmbTime = Time.time - leftKick.Time;
+                float invTime = Mathf.Exp(-1.622f * (cmbTime + Mathf.Epsilon));
+                leftFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
                 animator.SetBool("MirrorKick", false);
                 animator.SetTrigger("KickTrigger");
                 rbtSyncBhvr.TerminateAction("LeftKick");
@@ -236,8 +239,9 @@ public class ActorBehavior : MonoBehaviour
         {
             if (rightKick.IsSynchronized() && rightKickAnim == false)
             {
-                float invTime = Mathf.Exp(-1.622f * (Time.time - rightKick.Time + Mathf.Epsilon));
-                rightFoot.GetComponent<HitBehavior>().hitStats = new HitStats("RightKick", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
+                float cmbTime = Time.time - rightKick.Time;
+                float invTime = Mathf.Exp(-1.622f * (cmbTime + Mathf.Epsilon));
+                rightFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
                 animator.SetBool("MirrorKick", true);
                 animator.SetTrigger("KickTrigger");
                 rbtSyncBhvr.TerminateAction("RightKick");
@@ -377,7 +381,7 @@ public class ActorBehavior : MonoBehaviour
             if (hs.RobotID != rbtSyncBhvr.RobotID)
             {
 
-                health.TakeDamage(hs.SyncScore);
+                health.TakeDamage(hs.DamageDealt);
                 DidGetHit(this, hs);
                 DidHit(other.gameObject.GetComponent<HitBehavior>().ab, hs);
                 other.gameObject.GetComponent<HitBehavior>().hitStats = null;

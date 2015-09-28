@@ -187,6 +187,10 @@ Prefab:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11435602, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
+      propertyPath: NumberOfPlayers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11435602, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: RobotID
       value: 1
       objectReference: {fileID: 0}
@@ -235,6 +239,14 @@ Prefab:
     - target: {fileID: 143182, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: m_Name
       value: SorcererRobot 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11435602, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
+      propertyPath: NumberOfPlayers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11455702, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
+      propertyPath: DamageScale
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c7381419435e974e89941b0aed18d04, type: 2}

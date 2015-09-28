@@ -101,7 +101,7 @@ public class ComboBehavior : MonoBehaviour
         // Ignores input
         for (int i = 0; i < inputArray.Length; i++)
         {
-            inputArray[i].isIgnoringInput = true;
+            //inputArray[i].isIgnoringInput = true;
         }
         // Retint material
         meshMaterial.color = stunMeshColor;
@@ -118,7 +118,7 @@ public class ComboBehavior : MonoBehaviour
         // Reset input
         for (int i = 0; i < inputArray.Length; i++)
         {
-            inputArray[i].isIgnoringInput = false;
+            //inputArray[i].isIgnoringInput = false;
         }
         // Retint material
         meshMaterial.color = origMeshColor;

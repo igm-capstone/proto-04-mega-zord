@@ -6,15 +6,17 @@ public class HitStats
 
     public string Key;
     public int RobotID;
-    public float SyncScore;
+    public float DamageDealt;
     public int NumActive;
+    public float ComboTiming;
 
-    public HitStats(string key, int robotID, float syncScore, int numActive)
+    public HitStats(string key, int robotID, float damageDealt, int numActive, float comboTimming)
     {
         Key = key;
-        SyncScore = syncScore;
+        DamageDealt = damageDealt;
         NumActive = numActive;
         RobotID = robotID;
+        ComboTiming = comboTimming;
     }
 }
 
