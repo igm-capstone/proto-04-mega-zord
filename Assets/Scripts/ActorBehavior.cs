@@ -11,6 +11,8 @@ public class ActorBehavior : MonoBehaviour
     Health health;
     public Animator animator;
 
+    ComboBonus cmbBnus;
+
     // Movement Variables
     Vector3 moveVec;
     private Transform targetRobot;
@@ -51,6 +53,9 @@ public class ActorBehavior : MonoBehaviour
         //animator = GetComponent<Animator>();
         health = transform.parent.GetComponent<Health>();
         maxDamage = health.MaxHealth / DamageScale;
+
+        cmbBnus = transform.parent.GetComponent<ComboBonus>();
+
 
         // Robot Sync Initialization
         rbtSyncBhvr.ActionStarted += rb_ActionStarted;
@@ -381,10 +386,12 @@ public class ActorBehavior : MonoBehaviour
             if (hs.RobotID != rbtSyncBhvr.RobotID)
             {
 
-                health.TakeDamage(hs.DamageDealt);
                 DidGetHit(this, hs);
                 DidHit(other.gameObject.GetComponent<HitBehavior>().ab, hs);
                 other.gameObject.GetComponent<HitBehavior>().hitStats = null;
+                
+                // This needs to Happen after the Hit events are sent.
+                health.TakeDamage(hs.DamageDealt);
             }
         }
     }
