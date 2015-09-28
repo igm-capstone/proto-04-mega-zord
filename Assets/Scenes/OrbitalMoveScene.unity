@@ -87,22 +87,6 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &126433633 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 143182, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
-  m_PrefabInternal: {fileID: 587871441}
---- !u!114 &126433639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 126433633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d7aef3840338584a9d1b146aab8e95d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshObj: {fileID: 1521338176}
 --- !u!1 &180211855
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,15 +184,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 480262, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 22465304, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22465304, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11435602, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: RobotID
@@ -254,31 +230,89 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 480262, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 143182, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: m_Name
       value: SorcererRobot 2
       objectReference: {fileID: 0}
-    - target: {fileID: 22465304, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22465304, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11435602, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
-      propertyPath: RobotID
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1521338176 stripped
+--- !u!1 &1678965436
 GameObject:
-  m_PrefabParentObject: {fileID: 129188, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
-  m_PrefabInternal: {fileID: 587871441}
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1678965440}
+  - 114: {fileID: 1678965439}
+  - 114: {fileID: 1678965438}
+  - 114: {fileID: 1678965437}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1678965437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1678965436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1997211142, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowActivationOnStandalone: 0
+--- !u!114 &1678965438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1678965436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: .5
+  m_AllowActivationOnMobileDevice: 0
+--- !u!114 &1678965439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1678965436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
+--- !u!4 &1678965440
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1678965436}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
 --- !u!1 &1730365974
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,4 +385,4 @@ Transform:
   m_LocalScale: {x: 7, y: 1, z: 7}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class HitStats
 {
+
     public string Key;
     public int RobotID;
     public float SyncScore;
@@ -20,5 +21,6 @@ public class HitStats
 
 public class HitBehavior : MonoBehaviour
 {
+    public ActorBehavior ab;
     public HitStats hitStats = null;
 }

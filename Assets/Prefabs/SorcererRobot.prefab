@@ -293,6 +293,7 @@ GameObject:
   - 114: {fileID: 11435602}
   - 114: {fileID: 11418674}
   - 114: {fileID: 11491166}
+  - 114: {fileID: 11450786}
   m_Layer: 0
   m_Name: SorcererRobot
   m_TagString: Untagged
@@ -1648,6 +1649,7 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
+  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -1770,6 +1772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93617c117d9376469e4a1ce3f6828f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ab: {fileID: 0}
 --- !u!114 &11418674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1793,6 +1796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93617c117d9376469e4a1ce3f6828f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ab: {fileID: 0}
 --- !u!114 &11435602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1807,6 +1811,17 @@ MonoBehaviour:
   RobotID: 2
   NumberOfPlayers: 1
   robotHUDPrefab: {fileID: 173294, guid: a7cf2852976f511458285a503ec45837, type: 2}
+--- !u!114 &11450786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd0b3e895756ca47ac617a5ad77eb5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11455702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1819,6 +1834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 9507460}
+  DamageScale: 5
 --- !u!114 &11478512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1830,6 +1846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93617c117d9376469e4a1ce3f6828f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ab: {fileID: 0}
 --- !u!114 &11491166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1853,6 +1870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93617c117d9376469e4a1ce3f6828f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ab: {fileID: 0}
 --- !u!124 &12479258
 Behaviour:
   m_ObjectHideFlags: 1

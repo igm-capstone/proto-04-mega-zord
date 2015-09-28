@@ -28,28 +28,58 @@ public class ComboBehavior : MonoBehaviour
     Color origMeshColor;
     Color stunMeshColor;
 
+    ActorBehavior actBhvr;
+
+    RobotSyncBehavior RbtSync;
+
     // Use this for initialization
 	void Start ()
     {
-        // Get HitBehavior Script
+        // Get ActorBehavior Script and gebing listening for events
+        actBhvr = GetComponentInChildren<ActorBehavior>();
+        actBhvr.DidGetHit += ActBhvr_DidGetHit; ;
+        actBhvr.DidHit += ActBhvr_DidHit;
+
+        // Get Robot Sunc Behavior
+        RbtSync = GetComponent<RobotSyncBehavior>();
+
         // Get Input Scripts
         inputArray = GetComponents<InputManager>();
+        
         // Get Mesh Material
         meshMaterial = meshObj.GetComponent<Renderer>().material;
+        
+        // Set Up diferent colors
         origMeshColor = meshMaterial.color;
         stunMeshColor = Color.yellow;
+    }
+
+    private void ActBhvr_DidGetHit(ActorBehavior arg1, HitStats arg2)
+    {
+        // Reset stun counter
+
+        Debug.Log(this.gameObject.name + "got Hit");
+        // Call Stun Function Here
+    }
+
+    private void ActBhvr_DidHit(ActorBehavior arg1, HitStats arg2)
+    {
+        Debug.Log(this.gameObject.name + "Hit");
+        // Call Hit Function here!
     }
 
     // Update is called once per frame
     void Update ()
     {
+        // Test Code
+        //  Stun start
         comboTimer = 3.0f;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Start Stun");
             StartCoroutine(StartComboStun(comboTimer));
         }
-
+        // Stun Reset
         if(Input.GetKeyDown(KeyCode.Z))
         {
             Debug.Log("Pressed Z");
@@ -77,6 +107,8 @@ public class ComboBehavior : MonoBehaviour
         meshMaterial.color = stunMeshColor;
 
         // Terminate Action!
+        //RbtSync.TerminateAction(curAction);
+        
 
         // Stun animation Start goes here!
 
@@ -90,5 +122,12 @@ public class ComboBehavior : MonoBehaviour
         }
         // Retint material
         meshMaterial.color = origMeshColor;
+    }
+
+    // Gets called each time a hit happens
+    void Hitcombo()
+    {
+        // precious hit counter = hit counter +1
+        // nextHitDamage gets escalated down
     }
 }

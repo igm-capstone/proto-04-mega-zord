@@ -3,6 +3,9 @@ using System.Collections;
 
 public class ActorBehavior : MonoBehaviour 
 {
+    public event System.Action<ActorBehavior, HitStats> DidGetHit;
+    public event System.Action<ActorBehavior, HitStats> DidHit;
+
     #region Class Variables
     RobotSyncBehavior rbtSyncBhvr;
     Health health;
@@ -58,6 +61,11 @@ public class ActorBehavior : MonoBehaviour
         rightHand = transform.FindChild("Motion/B_Pelvis/B_Spine/B_Spine1/B_R_Clavicle/B_R_UpperArm/B_R_Forearm/B_R_Hand").gameObject;
         leftFoot = transform.FindChild("Motion/B_Pelvis/B_L_Thigh/B_L_Calf/B_L_Foot").gameObject;
         rightFoot = transform.FindChild("Motion/B_Pelvis/B_R_Thigh/B_R_Calf/B_R_Foot").gameObject;
+
+        leftHand.GetComponent<HitBehavior>().ab = this;
+        rightHand.GetComponent<HitBehavior>().ab = this;
+        leftFoot.GetComponent<HitBehavior>().ab = this;
+        rightFoot.GetComponent<HitBehavior>().ab = this;
 
         foreach (ActorBehavior actor in FindObjectsOfType<ActorBehavior>())
         {
@@ -368,7 +376,10 @@ public class ActorBehavior : MonoBehaviour
             hs = other.gameObject.GetComponent<HitBehavior>().hitStats;
             if (hs.RobotID != rbtSyncBhvr.RobotID)
             {
+
                 health.TakeDamage(hs.SyncScore);
+                DidGetHit(this, hs);
+                DidHit(other.gameObject.GetComponent<HitBehavior>().ab, hs);
                 other.gameObject.GetComponent<HitBehavior>().hitStats = null;
             }
         }
