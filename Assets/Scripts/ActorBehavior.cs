@@ -206,7 +206,7 @@ public class ActorBehavior : MonoBehaviour
         {
             if (leftPunch.IsSynchronized() && leftPunchAnim == false)
             {
-                float invTime = Mathf.Exp(-1.622f * (Time.time - rightPunch.Time + Mathf.Epsilon));
+                float invTime = Mathf.Exp(-1.622f * (Time.time - leftPunch.Time + Mathf.Epsilon));
                 leftHand.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
                 animator.SetBool("MirrorPunch", true);
                 animator.SetTrigger("PunchTrigger");
@@ -221,7 +221,7 @@ public class ActorBehavior : MonoBehaviour
         {
             if (leftKick.IsSynchronized() && leftKickAnim == false)
             {
-                float invTime = Mathf.Exp(-1.622f * (Time.time - rightPunch.Time + Mathf.Epsilon));
+                float invTime = Mathf.Exp(-1.622f * (Time.time - leftKick.Time + Mathf.Epsilon));
                 leftFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftKick", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
                 animator.SetBool("MirrorKick", false);
                 animator.SetTrigger("KickTrigger");
@@ -236,7 +236,7 @@ public class ActorBehavior : MonoBehaviour
         {
             if (rightKick.IsSynchronized() && rightKickAnim == false)
             {
-                float invTime = Mathf.Exp(-1.622f * (Time.time - rightPunch.Time + Mathf.Epsilon));
+                float invTime = Mathf.Exp(-1.622f * (Time.time - rightKick.Time + Mathf.Epsilon));
                 rightFoot.GetComponent<HitBehavior>().hitStats = new HitStats("RightKick", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers);
                 animator.SetBool("MirrorKick", true);
                 animator.SetTrigger("KickTrigger");
