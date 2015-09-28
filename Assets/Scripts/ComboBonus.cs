@@ -75,6 +75,9 @@ public class ComboBonus : MonoBehaviour
 
     private void ActBhvr_DidHit(ActorBehavior atckActBhvr, HitStats atckHitStats)
     {
+
+        Debug.Log(this.transform.name+": " + atckHitStats.Key);
+
         // Checks for Combo hit
         if (atckHitStats.ComboTiming < cmbThreshold)
         {
@@ -87,8 +90,9 @@ public class ComboBonus : MonoBehaviour
                 isComboing = true;
                 StartCoroutine(ComboTimer());
 
-                // Reset Combo sound pitch adn play First Hit sound.
+                // Reset Combo sound pitch and play First Hit sound.
                 cmbPitch = 1.0f;
+                punchSndPlyr.pitch = cmbPitch;
                 punchSndPlyr.PlayOneShot(punchSndArray[0]);
             }
             else
@@ -118,7 +122,6 @@ public class ComboBonus : MonoBehaviour
 
         }
         // Failed sync hit - Reset Combo variables
-        // (Needs testing because I could not test 1 vs Myself)
         else
         {
             cmbCount = 0;
@@ -148,6 +151,7 @@ public class ComboBonus : MonoBehaviour
         cmbCount = 0;
         isComboing = false;
         cmbDmgMult = 1.0f;
+
         otherHUD.ShowCombo(cmbCount);
     }
 

@@ -385,7 +385,6 @@ public class ActorBehavior : MonoBehaviour
             hs = other.gameObject.GetComponent<HitBehavior>().hitStats;
             if (hs.RobotID != rbtSyncBhvr.RobotID)
             {
-
                 DidGetHit(this, hs);
                 DidHit(other.gameObject.GetComponent<HitBehavior>().ab, hs);
                 other.gameObject.GetComponent<HitBehavior>().hitStats = null;
