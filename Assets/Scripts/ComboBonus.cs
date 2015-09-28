@@ -7,10 +7,14 @@ public class ComboBonus : MonoBehaviour
     ActorBehavior actBhvr;
     RobotSyncBehavior RbtSync;
     bool isComboing;
-    float cmbCount;
+    public int cmbCount;
     public float cmbThreshold;
     public float cmbDmgMult;
+    public float cmbTimeout = 4;
 
+    float comboTimer = 0;
+
+    InputPanelHUD otherHUD;
     // FeedBack variables
     // Color Flash
     public GameObject meshObj;
@@ -29,7 +33,7 @@ public class ComboBonus : MonoBehaviour
         // Initialize Class Variables
         flashTime = 0.1f;
         isComboing = false;
-        cmbCount = 0.0f;
+        cmbCount = 0;
         cmbPitch = 0.8f;
         cmbDmgMult = 1.0f;
         cmbThreshold = 1.0f;
@@ -41,6 +45,17 @@ public class ComboBonus : MonoBehaviour
 
         // Get Robot Sunc Behavior
         RbtSync = GetComponent<RobotSyncBehavior>();
+
+        //Get the other robots HUD
+        foreach (RobotSyncBehavior robot in GameObject.FindObjectsOfType<RobotSyncBehavior>())
+        {
+            if (robot != this.RbtSync)
+            {
+                otherHUD = robot.GetHUD();
+                break;
+            }
+        }
+
         // Get Mesh Material
         meshMaterial = meshObj.GetComponent<Renderer>().material;
         // Set Up diferent colors
@@ -64,11 +79,13 @@ public class ComboBonus : MonoBehaviour
         if (atckHitStats.ComboTiming < cmbThreshold)
         {
             // First Combo Hit
+            comboTimer = cmbTimeout;
             if (!isComboing)
             {
                 // Increase combo count and set to Start Combo
                 cmbCount++;
                 isComboing = true;
+                StartCoroutine(ComboTimer());
 
                 // Reset Combo sound pitch adn play First Hit sound.
                 cmbPitch = 1.0f;
@@ -93,6 +110,8 @@ public class ComboBonus : MonoBehaviour
             cmbDmgMult= 1+(Mathf.Pow(cmbCount,2))/20;
             // Cap combo Multiplier
             if (cmbDmgMult > 2.0f) cmbDmgMult = 2.0f;
+            
+            
             // Updates Damage
             atckHitStats.DamageDealt *= cmbDmgMult;
 
@@ -105,6 +124,8 @@ public class ComboBonus : MonoBehaviour
             isComboing = false;
             cmbDmgMult = 1.0f;
         }
+        otherHUD.ShowCombo(cmbCount);
+        otherHUD.SetComboAlpha(1);
     }
 
     // Makes Mesh Flash during flashTime
@@ -114,4 +135,20 @@ public class ComboBonus : MonoBehaviour
         yield return new WaitForSeconds(flashTime);
         meshMaterial.color = origMeshColor;
     }
+
+    IEnumerator ComboTimer()
+    {
+        while (comboTimer > 0.0f)
+        {
+            yield return new WaitForSeconds(0.1f);
+            comboTimer -= 0.1f;
+            otherHUD.SetComboAlpha(comboTimer / cmbTimeout);
+        }
+        cmbCount = 0;
+        isComboing = false;
+        cmbDmgMult = 1.0f;
+        otherHUD.ShowCombo(cmbCount);
+    }
+
+
 }

@@ -195,4 +195,6 @@ public class RobotSyncBehavior : MonoBehaviour
             if (playerID == joystickIDs[i]) return i;
         return 1;
     }
+
+    public InputPanelHUD GetHUD() { return hud; }
 }

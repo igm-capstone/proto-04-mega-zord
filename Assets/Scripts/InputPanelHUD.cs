@@ -13,6 +13,7 @@ public class InputPanelHUD : MonoBehaviour {
     private Animator panelAnimator;
     private Animator[] animator;
     private Sprite[] sprites;
+    private Sprite[] comboSprites;
     private Image[] imageBtn;
     private Image[] imageMov;
     private Image[] imageBlk;
@@ -20,12 +21,19 @@ public class InputPanelHUD : MonoBehaviour {
     private Slider health;
     private Image healthFill;
     private Transform endGame;
+    private Transform combo;
+    private Image comboImg;
+    private Image comboLabel;
 
     private string[] currentPress;
+
+    float flashCounter = 0;
+    float flashCounterTimeout = 1.0f;
 
     void Awake()
     {
         sprites = Resources.LoadAll<Sprite>("Sprites/circles");
+        comboSprites = Resources.LoadAll<Sprite>("Sprites/combo-numbers");
         panelAnimator = GetComponent<Animator>();
         atkImage = transform.FindChild("AtkImage").GetComponent<Image>();
         health = transform.parent.GetComponentInChildren<Slider>();
@@ -33,6 +41,11 @@ public class InputPanelHUD : MonoBehaviour {
         endGame = transform.parent.FindChild("EndGame");
         for (int i = 0; i < endGame.childCount; i++)
             endGame.GetChild(i).gameObject.SetActive(false);
+        combo = transform.parent.FindChild("Combo");
+        comboImg = combo.FindChild("Number").gameObject.GetComponent<Image>();
+        comboLabel = combo.FindChild("Label").gameObject.GetComponent<Image>();
+        comboImg.gameObject.SetActive(false);
+        comboLabel.gameObject.SetActive(false);
     }
     
 	void Start () {
@@ -145,19 +158,28 @@ public class InputPanelHUD : MonoBehaviour {
                 currentPress[i] = "";
             }
 
-            StartCoroutine(FlashAttack(syncedAttack));
+            atkImage.sprite = Resources.Load<Sprite>("Sprites/action-"+syncedAttack);
+        
+            if (flashCounter <= 0)
+            {
+                flashCounter = flashCounterTimeout;
+                StartCoroutine(FlashAttack());
+            }
+            else flashCounter = flashCounterTimeout;
         }
         
     }
-    IEnumerator FlashAttack(string syncedAttack)
+    IEnumerator FlashAttack()
     {
         atkImage.color = Color.white;
-        atkImage.sprite = Resources.Load<Sprite>("Sprites/action-"+syncedAttack);
         panelAnimator.SetBool("Glow", true);
-        yield return new WaitForSeconds(1.5f);
-        panelAnimator.SetBool("Glow", false);
-        yield return new WaitForSeconds(0.1f);
-        atkImage.color = new Color(0, 0, 0, 0);
+        while (flashCounter > 0)
+        {
+            flashCounter -= 0.1f;
+            atkImage.color = new Color(1, 1, 1, flashCounter / flashCounterTimeout); 
+            yield return new WaitForSeconds(0.1f);
+            if (flashCounter / flashCounterTimeout <= 0.3f) panelAnimator.SetBool("Glow", false);
+        }
     }
 
     private int KeyStringToSpriteNumber(string key)
@@ -230,6 +252,28 @@ public class InputPanelHUD : MonoBehaviour {
         endGame.FindChild("WinPanel").gameObject.SetActive(true);
         endGame.FindChild("Restart").gameObject.SetActive(true);
         endGame.FindChild("Restart").gameObject.GetComponent<Button>().onClick.AddListener(Restart);
+    }
+
+    public void ShowCombo(int value)
+    {
+        if (value >= 2)
+        {
+            comboImg.gameObject.SetActive(true);
+            comboLabel.gameObject.SetActive(true);
+            if (value > 7) value = 7;
+            comboImg.sprite = comboSprites[value - 2];
+        }
+        else
+        {
+            comboImg.gameObject.SetActive(false);
+            comboLabel.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetComboAlpha(float perc)
+    {
+        comboImg.color = new Color(1, 1, 1, perc);
+        comboLabel.color = new Color(1, 1, 1, perc);
     }
 
     void Restart()
