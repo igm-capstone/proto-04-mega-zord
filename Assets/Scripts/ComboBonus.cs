@@ -35,14 +35,14 @@ public class ComboBonus : MonoBehaviour
         //stunMeshColor = Color.yellow;
     }
 
-    private void ActBhvr_DidGetHit(ActorBehavior arg1, HitStats arg2)
+    private void ActBhvr_DidGetHit(ActorBehavior dfnsActBhvr, HitStats dfnsHitStats)
     {
-        Debug.Log(this.gameObject.name + "got Hit");
+        Debug.Log(dfnsActBhvr.gameObject.transform.parent.name + " got Hit");
     }
 
-    private void ActBhvr_DidHit(ActorBehavior arg1, HitStats arg2)
+    private void ActBhvr_DidHit(ActorBehavior atckActBhvr, HitStats atckHitStats)
     {
-        Debug.Log(this.gameObject.name + "Hit");
+        Debug.Log(atckActBhvr.gameObject.transform.parent.name + " Hit");
         // Call Hit Function here!
     }
 
