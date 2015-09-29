@@ -1650,7 +1650,6 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -1892,8 +1891,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd0b3e895756ca47ac617a5ad77eb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cmbCount: 0
   cmbThreshold: 0
   cmbDmgMult: 0
+  cmbTimeout: 4
   meshObj: {fileID: 129188}
 --- !u!114 &11455702
 MonoBehaviour:
