@@ -11,6 +11,7 @@ public class ComboBonus : MonoBehaviour
     public float cmbThreshold;
     public float cmbDmgMult;
     public float cmbTimeout = 4;
+    string prvsHit;
 
     float comboTimer = 0;
 
@@ -75,11 +76,12 @@ public class ComboBonus : MonoBehaviour
 
     private void ActBhvr_DidHit(ActorBehavior atckActBhvr, HitStats atckHitStats)
     {
-
-        Debug.Log(this.transform.name+": " + atckHitStats.Key);
-
+        Debug.Log("Previous Hit" + ": " + prvsHit);
+        // Get vurrent hit key
+        string curHit = atckHitStats.Key;
+        Debug.Log(this.transform.name+": " + curHit);
         // Checks for Combo hit
-        if (atckHitStats.ComboTiming < cmbThreshold)
+        if (atckHitStats.ComboTiming < cmbThreshold && curHit != prvsHit)
         {
             // First Combo Hit
             comboTimer = cmbTimeout;
@@ -120,6 +122,8 @@ public class ComboBonus : MonoBehaviour
             // Updates Damage
             atckHitStats.DamageDealt *= cmbDmgMult;
 
+            // Updates previous Hit
+            prvsHit = curHit;
         }
         // Failed sync hit - Reset Combo variables
         else
@@ -151,6 +155,7 @@ public class ComboBonus : MonoBehaviour
         cmbCount = 0;
         isComboing = false;
         cmbDmgMult = 1.0f;
+        prvsHit = null;
 
         otherHUD.ShowCombo(cmbCount);
     }
