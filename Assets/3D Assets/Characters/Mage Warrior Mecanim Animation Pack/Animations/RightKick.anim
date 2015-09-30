@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Kick
+  m_Name: RightKick
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -47552,15 +47552,8 @@ AnimationClip:
     floatParameter: 2
     intParameter: 0
     messageOptions: 0
-  - time: .5
-    functionName: PunchHit
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.06666672
-    functionName: endAnimation
+  - time: .699999988
+    functionName: EndAnimation
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 2

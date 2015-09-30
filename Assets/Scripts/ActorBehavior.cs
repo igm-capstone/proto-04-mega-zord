@@ -44,7 +44,7 @@ public class ActorBehavior : MonoBehaviour
     private bool leftKickAnim = false, rightKickAnim = false, leftPunchAnim = false, rightPunchAnim = false, blockAnim = false;
     private float maxDamage;
     public float DamageScale = 10; // Divides the max health to determine max damage
-    private bool animOn = false;
+    private bool tempBool = false;
     #endregion
 
     void Start()
@@ -100,33 +100,67 @@ public class ActorBehavior : MonoBehaviour
             animator.SetBool("Moving", false);
         }
 
+        //Start animations if it is not already playing
+        //if (leftKick != null && animator.GetBool("EndLeftKick") == true)
+        //{
+        //    Debug.Log("1");
+        //    animator.SetBool("LeftKickTrigger", true);
+        //    animator.SetBool("EndLeftKick", false);
+        //}        
+        //else if (rightKick != null && animator.GetBool("EndRightKick") == true)
+        //{
+        //    animator.SetBool("RightKickTrigger", true);
+        //    animator.SetBool("EndRightKick", false);
+        //}
+        //else if (leftPunch != null && animator.GetBool("EndLeftPunch") == true)
+        //{
+        //    animator.SetBool("LeftPunchTrigger", true);
+        //    animator.SetBool("EndLeftPunch", false);
+        //}
+        //else if (rightPunch != null && animator.GetBool("EndRightPunch") == true)
+        //{
+        //    animator.SetBool("RightPunchTrigger", true);
+        //    animator.SetBool("EndRightPunch", false);
+        //}
+        //Debug.Log("leftKick" + leftKick);
+        //Debug.Log("rightKick" + rightKick);
+        //Debug.Log("leftPunch" + leftPunch);
+        //Debug.Log("rightPunch" + rightPunch);
+        Debug.Log(tempBool);
+        UpdateMovement();  //update character Velocity   
+        TerminateAnimation();
+    }
 
-        if (rightPunch != null && animator.GetBool("EndPunch") == true)
+    //Transition to Idle Animation if the actions weren't synchronised
+    private void TerminateAnimation()
+    {
+        if (leftKick == null && animator.GetCurrentAnimatorStateInfo(0).IsName("LeftKick") && animator.GetFloat("LeftKickSpeed") < 0.95f)
         {
-            animator.SetBool("EndPunch", false);
-            animator.SetBool("MirrorPunch", false);
-            animator.SetBool("PunchTrigger", true);
-        }
-        else if (leftPunch != null && animator.GetBool("EndPunch") == true)
-        {
-            animator.SetBool("EndPunch", false);
-            animator.SetBool("MirrorPunch", true);
-            animator.SetBool("PunchTrigger", true);
-        }
-        else if (rightKick != null && animator.GetBool("EndKick") == true)
-        {
-            animator.SetBool("EndKick", false);
-            animator.SetBool("MirrorKick", true);
-            animator.SetBool("KickTrigger", true);
-        }
-        else if (leftKick != null && animator.GetBool("EndKick") == true)
-        {
-            animator.SetBool("EndKick", false);
-            animator.SetBool("MirrorKick", false);
-            animator.SetBool("KickTrigger", true);
+            animator.SetFloat("LeftKickSpeed", 0.2f);
+            animator.SetBool("LeftKickTrigger", false);
+            animator.SetBool("EndLeftKick", true);
         }
 
-        UpdateMovement();  //update character Velocity 
+        if (rightKick == null && animator.GetCurrentAnimatorStateInfo(0).IsName("RightKick") && animator.GetFloat("RightKickSpeed") < 0.95f)
+        {
+            animator.SetFloat("RightKickSpeed", 0.2f);
+            animator.SetBool("RightKickTrigger", false);
+            animator.SetBool("EndRightKick", true);
+        }
+
+        if (leftPunch == null && animator.GetCurrentAnimatorStateInfo(0).IsName("LeftPunch") && animator.GetFloat("LeftPunchSpeed") < 0.95f)
+        {
+            animator.SetFloat("LeftPunchSpeed", 0.2f);
+            animator.SetBool("LeftPunchTrigger", false);
+            animator.SetBool("EndLeftPunch", true);
+        }
+
+        if (rightKick == null && animator.GetCurrentAnimatorStateInfo(0).IsName("RightPunch") && animator.GetFloat("RightPunchSpeed") < 0.95f)
+        {
+            animator.SetFloat("RightPunchSpeed", 0.2f);
+            animator.SetBool("RightPunchTrigger", false);
+            animator.SetBool("EndRightPunch", true);
+        }
     }
 
     private void rb_ActionTerminated(string obj)
@@ -209,12 +243,8 @@ public class ActorBehavior : MonoBehaviour
                 rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
                 rbtSyncBhvr.TerminateAction("RightPunch");
             }
-            else if (!rightPunch.IsActive()) {
-                animator.SetFloat("PunchAnimSpeed", 0.1f);
-                animator.SetBool("PunchTrigger", false);
-                animator.SetBool("EndPunch", true);
+            else if (!rightPunch.IsActive())
                 rbtSyncBhvr.TerminateAction("RightPunch");
-            }
         }
         else if (leftPunch != null)
         {
@@ -227,30 +257,27 @@ public class ActorBehavior : MonoBehaviour
                 rbtSyncBhvr.TerminateAction("LeftPunch");
             }
             else if (!leftPunch.IsActive())
-            {
-                animator.SetFloat("PunchAnimSpeed", 0.1f);
-                animator.SetBool("PunchTrigger", false);
-                animator.SetBool("EndPunch", true);
                 rbtSyncBhvr.TerminateAction("LeftPunch");
-            }
         }
         else if (leftKick != null)
         {
             GetAnimSpeed();
+            if (tempBool == false && animator.GetBool("EndLeftKick") == true)
+            {
+                Debug.Log("1");
+                animator.SetBool("LeftKickTrigger", true);
+                animator.SetBool("EndLeftKick", false);
+            }   
             if (leftKick.IsSynchronized() && leftKickAnim == false)
             {
                 float cmbTime = Time.time - leftKick.Time;
                 float invTime = Mathf.Exp(-1.622f * (cmbTime + Mathf.Epsilon));
                 leftFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
                 rbtSyncBhvr.TerminateAction("LeftKick");
+                tempBool = true;
             }
-            else if (!leftKick.IsActive())
-            {
-                animator.SetFloat("KickAnimSpeed", 0.1f);
-                animator.SetBool("KickTrigger", false);
-                animator.SetBool("EndKick",true);
+            else if (!leftKick.IsActive())                            
                 rbtSyncBhvr.TerminateAction("LeftKick");
-            }
         }
         else if (rightKick != null)
         {
@@ -263,12 +290,7 @@ public class ActorBehavior : MonoBehaviour
                 rbtSyncBhvr.TerminateAction("RightKick");
             }
             else if (!rightKick.IsActive())
-            {
-                animator.SetFloat("KickAnimSpeed", 0.1f);
-                animator.SetBool("KickTrigger", false);
-                animator.SetBool("EndKick", true);
                 rbtSyncBhvr.TerminateAction("RightKick");
-            }
         }
         else if (block != null)
         {
@@ -297,8 +319,10 @@ public class ActorBehavior : MonoBehaviour
             {
                 if (psi.IsPressing()) { count++; }
             }
-            animSpeed = 0.0025f * Mathf.Exp(1.4914f * count);
-            animator.SetFloat("PunchAnimSpeed", animSpeed);
+            float temp = animator.GetFloat("RightPunchSpeed");
+            animSpeed = 0.0025f * Mathf.Exp(1.4914f * count * 4 / rbtSyncBhvr.NumberOfPlayers);
+            if (temp < 0.95f || animSpeed >= 0.95f)
+                animator.SetFloat("RightPunchSpeed", animSpeed);
         }
         else if (leftPunch != null)
         {
@@ -307,8 +331,10 @@ public class ActorBehavior : MonoBehaviour
             {
                 if (psi.IsPressing()) { count++; }
             }
-            animSpeed = 0.0025f * Mathf.Exp(1.4914f * count);
-            animator.SetFloat("PunchAnimSpeed", animSpeed);
+            float temp = animator.GetFloat("LeftPunchSpeed");
+            animSpeed = 0.0025f * Mathf.Exp(1.4914f * count * 4 / rbtSyncBhvr.NumberOfPlayers);
+            if (temp < 0.95f || animSpeed >= 0.95f)
+                animator.SetFloat("LeftPunchSpeed", animSpeed);
         }
         else if (rightKick != null)
         {
@@ -317,8 +343,10 @@ public class ActorBehavior : MonoBehaviour
             {
                 if (psi.IsPressing()) { count++; }
             }
-            animSpeed = 0.0025f * Mathf.Exp(1.4914f * count);
-            animator.SetFloat("KickAnimSpeed", animSpeed);
+            float temp = animator.GetFloat("RightKickSpeed");
+            animSpeed = 0.0025f * Mathf.Exp(1.4914f * count * 4 / rbtSyncBhvr.NumberOfPlayers);
+            if (temp < 0.95f || animSpeed >= 0.95f)
+                animator.SetFloat("RightKickSpeed", animSpeed);
         }
 
         else if (leftKick != null)
@@ -328,8 +356,12 @@ public class ActorBehavior : MonoBehaviour
             {
                 if (psi.IsPressing()) { count++; }
             }
-            animSpeed = 0.0025f * Mathf.Exp(1.4914f*count);
-            animator.SetFloat("KickAnimSpeed", animSpeed);
+            if (count == 0)
+                tempBool = false;
+            float temp = animator.GetFloat("LeftKickSpeed");
+            animSpeed = 0.0025f * Mathf.Exp(1.4914f * count * 4 / rbtSyncBhvr.NumberOfPlayers);
+            if (temp < 0.95f || animSpeed >= 0.95f)
+                animator.SetFloat("LeftKickSpeed", animSpeed);
         }
     }
 
@@ -444,48 +476,51 @@ public class ActorBehavior : MonoBehaviour
     }
 
     //function from the animation
-    public void Hit()
-    {        
-        // Nothing for now.
+    public void Hit(float value)
+    {
     }
 
-    public void endAnimation(float value)
+    public void EndAnimation(float value)
     {
-        if (value == 1)   //Punch
+        if (value == 1)   //LeftKick
         {
-            if(animator.GetBool("MirrorPunch") == true)
-                leftPunchAnim = false;
-            if(animator.GetBool("MirrorPunch") == false)
-                rightPunchAnim = false;
+            animator.SetBool("EndLeftKick", true);
+            animator.SetFloat("LeftKickSpeed", 0.2f);
+            leftKickAnim = false;
         }
-        if(value == 2)   //Kick
+        if (value == 2)   //RightKick
         {
-            if(animator.GetBool("MirrorKick") == true)
-                rightKickAnim = false;
-            if (animator.GetBool("MirrorKick") == false)
-                leftKickAnim = false;
+            animator.SetBool("EndRightKick", true);
+            animator.SetFloat("RightKickSpeed", 0.2f);
+            rightKickAnim = false;
         }
-        if (value == 3)   //Block
+        if (value == 3)   //LeftPunch
+        {
+            animator.SetBool("EndLeftPunch", true);
+            animator.SetFloat("LeftPunchSpeed", 0.2f);
+            leftPunchAnim = false;
+        }
+        if (value == 4)   //RightPunch
+        {
+            animator.SetBool("EndRightPunch", true);
+            animator.SetFloat("RightPunchSpeed", 0.2f);
+            rightPunchAnim = false;
+        }
+        if (value == 5)   //Block
             blockAnim = false;
     }
 
     public void StartAnimation(float value)
     {
-        if (value == 1)   //Punch
-        {
-            if (animator.GetBool("MirrorPunch") == true)
-                leftPunchAnim = true;
-            if (animator.GetBool("MirrorPunch") == false)
-                rightPunchAnim = true;
-        }
-        if (value == 2)   //Kick
-        {
-            if (animator.GetBool("MirrorKick") == true)
-                rightKickAnim = true;
-            if (animator.GetBool("MirrorKick") == false)
-                leftKickAnim = true;
-        }
-        if (value == 3)   //Block
+        if (value == 1)   //LeftKick
+            leftKickAnim = true;
+        if (value == 2)   //RightKick
+            rightKickAnim = true;
+        if (value == 3)   //LeftPunch
+            leftPunchAnim = true;
+        if (value == 4)   //RightPunch
+            rightPunchAnim = true;
+        if (value == 5)   //Block
             blockAnim = true;
     }
 }
