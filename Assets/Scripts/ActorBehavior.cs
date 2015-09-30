@@ -457,17 +457,28 @@ public class ActorBehavior : MonoBehaviour
         transform.parent.GetComponent<Rigidbody>().velocity = motion;
     }
 
+    // Happens when robot Body is Hit
     public void OnTriggerEnter(Collider other)
     {
+        // Checks if it was hit by an attack
         HitStats hs = null;
         if (other.gameObject.GetComponent<HitBehavior>() && other.gameObject.GetComponent<HitBehavior>().hitStats != null)
         {
+            // Get Atacker information
             hs = other.gameObject.GetComponent<HitBehavior>().hitStats;
+            // Checks if robot did not hit itself
             if (hs.RobotID != rbtSyncBhvr.RobotID)
             {
+                // Signal events with attacker information.
                 DidGetHit(this, hs);
                 DidHit(other.gameObject.GetComponent<HitBehavior>().ab, hs);
                 other.gameObject.GetComponent<HitBehavior>().hitStats = null;
+                
+                //// Hit was blocked
+                //if(block.IsActive())
+                //{
+
+                //}
                 
                 // This needs to Happen after the Hit events are sent.
                 health.TakeDamage(hs.DamageDealt);
