@@ -87,7 +87,6 @@ public class ComboBonus : MonoBehaviour
 
     private void ActBhvr_DidHit(ActorBehavior atckActBhvr, HitStats atckHitStats)
     {
-        
         if(atckHitStats.WasBlocked)
         {
             // Adjust damage
@@ -99,6 +98,11 @@ public class ComboBonus : MonoBehaviour
 
             // Apply block knockback;
 
+            // Drop Combo
+            cmbCount = 0;
+            isComboing = false;
+            cmbDmgMult = 1.0f;
+            prvsHit = null;
             return;
         }
         // Get current hit key
