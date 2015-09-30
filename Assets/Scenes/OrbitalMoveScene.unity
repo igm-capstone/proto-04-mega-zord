@@ -192,7 +192,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11435602, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: NumberOfPlayers
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11450786, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: cmbTimeout
@@ -1194,7 +1194,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 143182, guid: 2c7381419435e974e89941b0aed18d04, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c7381419435e974e89941b0aed18d04, type: 2}

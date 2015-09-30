@@ -45,6 +45,9 @@ public class ActorBehavior : MonoBehaviour
     private float maxDamage;
     public float DamageScale = 10; // Divides the max health to determine max damage
     private bool tempBool = false;
+
+    private bool isBlocking = false;
+
     #endregion
 
     void Start()
@@ -126,7 +129,7 @@ public class ActorBehavior : MonoBehaviour
         //Debug.Log("rightKick" + rightKick);
         //Debug.Log("leftPunch" + leftPunch);
         //Debug.Log("rightPunch" + rightPunch);
-        Debug.Log(tempBool);
+        //Debug.Log(tempBool);
         UpdateMovement();  //update character Velocity   
         TerminateAnimation();
     }
@@ -240,7 +243,7 @@ public class ActorBehavior : MonoBehaviour
             {
                 float cmbTime = Time.time - rightPunch.Time;
                 float invTime = Mathf.Exp(-1.622f * (cmbTime + Mathf.Epsilon));
-                rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
+                rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime, false);
                 rbtSyncBhvr.TerminateAction("RightPunch");
             }
             else if (!rightPunch.IsActive())
@@ -253,7 +256,7 @@ public class ActorBehavior : MonoBehaviour
             {
                 float cmbTime = Time.time - leftPunch.Time;
                 float invTime = Mathf.Exp(-1.622f * (cmbTime+ Mathf.Epsilon));
-                leftHand.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
+                leftHand.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime, false);
                 rbtSyncBhvr.TerminateAction("LeftPunch");
             }
             else if (!leftPunch.IsActive())
@@ -264,7 +267,7 @@ public class ActorBehavior : MonoBehaviour
             GetAnimSpeed();
             if (tempBool == false && animator.GetBool("EndLeftKick") == true)
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                 animator.SetBool("LeftKickTrigger", true);
                 animator.SetBool("EndLeftKick", false);
             }   
@@ -272,7 +275,7 @@ public class ActorBehavior : MonoBehaviour
             {
                 float cmbTime = Time.time - leftKick.Time;
                 float invTime = Mathf.Exp(-1.622f * (cmbTime + Mathf.Epsilon));
-                leftFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
+                leftFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime, false);
                 rbtSyncBhvr.TerminateAction("LeftKick");
                 tempBool = true;
             }
@@ -286,7 +289,7 @@ public class ActorBehavior : MonoBehaviour
             {
                 float cmbTime = Time.time - rightKick.Time;
                 float invTime = Mathf.Exp(-1.622f * (cmbTime + Mathf.Epsilon));
-                rightFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime);
+                rightFoot.GetComponent<HitBehavior>().hitStats = new HitStats("LeftPunch", rbtSyncBhvr.RobotID, maxDamage * invTime, rbtSyncBhvr.NumberOfPlayers, cmbTime, false);
                 rbtSyncBhvr.TerminateAction("RightKick");
             }
             else if (!rightKick.IsActive())
@@ -296,13 +299,15 @@ public class ActorBehavior : MonoBehaviour
         {
             if (block.IsSynchronized() && blockAnim == false)
             {
-                // Not sure what to do here yet.
-               // rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rightPunch.SyncScore, 4);
+                // Block is being treated in the OnTRiggerEvent function.
+                // rightHand.GetComponent<HitBehavior>().hitStats = new HitStats("RightPunch", rightPunch.SyncScore, 4);
+                isBlocking = true;
                 animator.SetBool("Block", true);
                 rbtSyncBhvr.TerminateAction("Block");
             }
             else if (!block.IsActive())
             {
+                isBlocking = false;
                 rbtSyncBhvr.TerminateAction("Block");
             }
         }
@@ -469,17 +474,14 @@ public class ActorBehavior : MonoBehaviour
             // Checks if robot did not hit itself
             if (hs.RobotID != rbtSyncBhvr.RobotID)
             {
+                // Was hit blocked?
+                hs.WasBlocked = isBlocking;
+
                 // Signal events with attacker information.
                 DidGetHit(this, hs);
                 DidHit(other.gameObject.GetComponent<HitBehavior>().ab, hs);
                 other.gameObject.GetComponent<HitBehavior>().hitStats = null;
-                
-                //// Hit was blocked
-                //if(block.IsActive())
-                //{
 
-                //}
-                
                 // This needs to Happen after the Hit events are sent.
                 health.TakeDamage(hs.DamageDealt);
             }
@@ -489,6 +491,7 @@ public class ActorBehavior : MonoBehaviour
     //function from the animation
     public void Hit(float value)
     {
+
     }
 
     public void EndAnimation(float value)
